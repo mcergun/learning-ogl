@@ -35,3 +35,25 @@ __Fragment Shader__ stage calculates the final color of the pixel. This stage is
 __Alpha Test and Blending__ stage is the final stage that checks corresponding depth value of the fragments and calculates which fragments are in the front or behind. This information together with the alpha values changes pixel's final value.
 
 OpenGL requires programmers to define their own Vertex and Fragment Shaders. To draw something, I must learn GLSL and define my first two shaders (Yay!!).
+
+### Generating OpenGL Buffers
+
+- Generate a buffer id with `glGenBuffer`
+- Bind generated buffer with a role `glBindBuffer`. Used `GL_ARRAY_BUFFER` for vertex attributes
+- Transfer data to OGL buffer with `glBufferData`. Again, used `GL_ARRAY_BUFFER` as mode, and `GL_STATIC_DRAW` as the usage.
+    - `GL_STATIC_DRAW`: the data will most likely not change at all or very rarely.
+    - `GL_DYNAMIC_DRAW`: the data is likely to change a lot.
+    - `GL_STREAM_DRAW`: the data will change every time it is drawn.
+
+### Creating and Compiling a Vertex/Fragment Shader
+
+- Generate a shader id with `glCreateShader`. Used `GL_VERTEX_SHADER` and `GL_FRAGMENT_SHADER` as shaderType.
+- Assign shader source with `glShaderSource`. 
+- Compile shader with `glCompileShader`.
+
+### Creating Shader Program
+- Generate a shader program with `glCreateProgram`.
+- Attach vertex and fragment shaders with `glAttachShader`.
+- Link the program with `glLinkProgram`.
+- Use the program with `glUseProgram`.
+- Remove attached shaders with `glDeleteShader`.

@@ -3,8 +3,11 @@ CFLAGS=-I. -Iinclude
 LIBS=`pkg-config --libs glfw3 gl` -ldl
 DEPS = hellomake.h
 
-main: dirs glad
-	@${CXX} ${CFLAGS} src/main.cpp obj/glad.o -o bin/main ${LIBS}
+main: dirs shaderloader glad
+	@${CXX} ${CFLAGS} src/main.cpp obj/glad.o obj/shaderloader.o -o bin/main ${LIBS}
+
+shaderloader: dirs
+	@${CXX} ${CFLAGS} src/shaderloader.cpp -c -o obj/shaderloader.o
 
 glad: dirs
 	@${CXX} ${CFLAGS} -c src/glad/glad.c -o obj/glad.o
