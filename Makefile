@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I. -Iinclude
+CFLAGS=-I. -Iinclude -Wall
 LIBS=`pkg-config --libs glfw3 gl` -ldl
 DEPS = hellomake.h
 
