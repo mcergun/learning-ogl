@@ -40,19 +40,13 @@ int main(int argc, char **argv)
 		 0.0f,  0.0f, 0.0f,
 	};
 
-	unsigned int vbo;
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
 	auto vertexShader = getShader("shaders/simplevertex.shader");
 	std::cout << vertexShader << std::endl;
 	auto fragShader = getShader("shaders/simplefragment.shader");
 	std::cout << fragShader << std::endl;
 
-	unsigned int vxsid;
 	const char * vertexShaderPtr = vertexShader.c_str();
-	vxsid = glCreateShader(GL_VERTEX_SHADER);
+	unsigned int vxsid = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vxsid, 1, &vertexShaderPtr, NULL);
 	glCompileShader(vxsid);
 
@@ -70,8 +64,7 @@ int main(int argc, char **argv)
 		std::cout << infoLog << std::endl;
 	}
 	const char * fragShaderPtr = fragShader.c_str();
-	unsigned int fgmsid;
-	glCreateShader(GL_FRAGMENT_SHADER);
+	unsigned int fgmsid = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fgmsid, 1, &fragShaderPtr, NULL);
 	glCompileShader(fgmsid);
 	
@@ -94,7 +87,6 @@ int main(int argc, char **argv)
 	glAttachShader(sp, vxsid);
 	glAttachShader(sp, fgmsid);
 	glLinkProgram(sp);
-
 	glGetProgramiv(sp, GL_LINK_STATUS, &success);
 	if (success)
 	{
@@ -106,14 +98,25 @@ int main(int argc, char **argv)
 		glGetProgramInfoLog(sp, 512, NULL, infoLog);
 		std::cout << infoLog << std::endl;
 	}
-
-	glUseProgram(sp);
-
 	glDeleteShader(vxsid);
 	glDeleteShader(fgmsid);
 
-	glViewport(0, 0, WIN_WID, WIN_HEI);
-	glfwSetFramebufferSizeCallback(win, cbFrameBufferSize);
+	unsigned int vao;
+	unsigned int vbo;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	glGenBuffers(1, &vbo);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+	glEnableVertexAttribArray(0);
+
+	// Unbind vertex buffer object
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	// Unbind vertex array object
+	glBindVertexArray(0);
 
 	while(!glfwWindowShouldClose(win))
 	{
@@ -122,10 +125,15 @@ int main(int argc, char **argv)
 		// handle rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		glUseProgram(sp);
+		glBindVertexArray(vao);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		// check events and swap the buffers
 		glfwSwapBuffers(win);
 		glfwPollEvents();
 	}
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
 	glfwTerminate();
 
 	std::cout << "Hello world!" << std::endl;
