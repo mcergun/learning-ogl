@@ -35,15 +35,18 @@ int main(int argc, char **argv)
 	}
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.0f, 0.0f,
+		// first triangle
+		-0.5f, -0.5f, 0.0f, // bottom left
+		 0.5f, -0.5f, 0.0f, // bottom right
+		-0.5f,  0.5f, 0.0f, // top left
+		// second triangle
+		-0.5f,  0.5f, 0.0f, // top left
+		 0.5f,  0.5f, 0.0f, // top right
+		 0.5f, -0.5f, 0.0f, // bottom right
 	};
 
 	auto vertexShader = getShader("shaders/simplevertex.shader");
-	std::cout << vertexShader << std::endl;
 	auto fragShader = getShader("shaders/simplefragment.shader");
-	std::cout << fragShader << std::endl;
 
 	const char * vertexShaderPtr = vertexShader.c_str();
 	unsigned int vxsid = glCreateShader(GL_VERTEX_SHADER);
@@ -127,7 +130,7 @@ int main(int argc, char **argv)
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUseProgram(sp);
 		glBindVertexArray(vao);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 		// check events and swap the buffers
 		glfwSwapBuffers(win);
 		glfwPollEvents();
