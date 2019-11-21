@@ -84,3 +84,9 @@ After introducing Vertex Array Objects, things got a little different. New flow 
 > - _normalized_, we used [-1.0f, 1.0f] range for our vertices. No need for normalization. Use `GL_FALSE` here.
 > - _stride_, number of bytes between each vertex's data. We have 3 positions on 3 axes, thus `3 * sizeof(float)` is our stride size. We could also use `0` as our vertices are tightly packed. (no additional data between vertices)
 > - _pointer_, this is confusing as well. This parameter is actually an offset to our buffer data transferred via `glBufferData`. So we will use `0`.
+
+### Element Buffer Objects
+Element buffer objects are used to optimize overlapping vertices.
+- Generate a buffer with `glGenBuffers`.
+- Assign indice (vertice order) data with `glBufferData`.
+- Bind using `glBindBuffer` with `GL_ELEMENT_ARRAY_BUFFER`.

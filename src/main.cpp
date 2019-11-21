@@ -35,14 +35,15 @@ int main(int argc, char **argv)
 	}
 
 	float vertices[] = {
-		// first triangle
 		-0.5f, -0.5f, 0.0f, // bottom left
-		 0.5f, -0.5f, 0.0f, // bottom right
-		-0.5f,  0.5f, 0.0f, // top left
-		// second triangle
 		-0.5f,  0.5f, 0.0f, // top left
 		 0.5f,  0.5f, 0.0f, // top right
 		 0.5f, -0.5f, 0.0f, // bottom right
+	};
+
+	unsigned int indices[] = {
+		0, 1, 2, // first rectangle with bot-lf, top-lf, top-rt
+		0, 2, 3, // second rectangle with bot-lf, top-rt, bot-rt
 	};
 
 	auto vertexShader = getShader("shaders/simplevertex.shader");
@@ -106,20 +107,29 @@ int main(int argc, char **argv)
 
 	unsigned int vao;
 	unsigned int vbo;
+	unsigned int ebo;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 	glEnableVertexAttribArray(0);
 
 	// Unbind vertex buffer object
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	// Unbind element buffer object
+	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	// Unbind vertex array object
 	glBindVertexArray(0);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	while(!glfwWindowShouldClose(win))
 	{
@@ -128,9 +138,10 @@ int main(int argc, char **argv)
 		// handle rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
 		glUseProgram(sp);
 		glBindVertexArray(vao);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		// check events and swap the buffers
 		glfwSwapBuffers(win);
 		glfwPollEvents();
