@@ -1,7 +1,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <shaderloader.h>
+#include <Shader.h>
 
 constexpr int WIN_WID = 800;
 constexpr int WIN_HEI = 600;
@@ -35,10 +35,10 @@ int main(int argc, char **argv)
 	}
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f, // top left
-		 0.5f,  0.5f, 0.0f, // top right
-		 0.5f, -0.5f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // bl
+		-0.5f,  0.5f, 0.0f,  0.5f, 0.5f, 0.0f, // tl
+		 0.5f,  0.5f, 0.0f,  0.0f, 0.5f, 0.5f, // tr
+		 0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 0.1f, // br
 	};
 
 	unsigned int indices[] = {
@@ -46,64 +46,8 @@ int main(int argc, char **argv)
 		0, 2, 3, // second rectangle with bot-lf, top-rt, bot-rt
 	};
 
-	auto vertexShader = getShader("shaders/simplevertex.shader");
-	auto fragShader = getShader("shaders/simplefragment.shader");
+	Shader shader("shaders/simplevertex.glsl", "shaders/simplefragment.glsl");
 
-	const char * vertexShaderPtr = vertexShader.c_str();
-	unsigned int vxsid = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vxsid, 1, &vertexShaderPtr, NULL);
-	glCompileShader(vxsid);
-
-	int success = 0;
-	glGetShaderiv(vxsid, GL_COMPILE_STATUS, &success);
-
-	if (success)
-	{
-		std::cout << "VertexShader compiled successfully" << std::endl;
-	}
-	else
-	{
-		char infoLog[512] = {0};
-		glGetShaderInfoLog(vxsid, 512, NULL, infoLog);
-		std::cout << infoLog << std::endl;
-	}
-	const char * fragShaderPtr = fragShader.c_str();
-	unsigned int fgmsid = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fgmsid, 1, &fragShaderPtr, NULL);
-	glCompileShader(fgmsid);
-	
-	glGetShaderiv(fgmsid, GL_COMPILE_STATUS, &success);
-
-	if (success)
-	{
-		std::cout << "FragmentShader compiled successfully" << std::endl;
-	}
-	else
-	{
-		char infoLog[512] = {0};
-		glGetShaderInfoLog(fgmsid, 512, NULL, infoLog);
-		std::cout << infoLog << std::endl;
-	}
-
-	unsigned int sp;
-	sp = glCreateProgram();
-
-	glAttachShader(sp, vxsid);
-	glAttachShader(sp, fgmsid);
-	glLinkProgram(sp);
-	glGetProgramiv(sp, GL_LINK_STATUS, &success);
-	if (success)
-	{
-		std::cout << "ShaderProgram linked successfully" << std::endl;
-	}
-	else
-	{
-		char infoLog[512] = {0};
-		glGetProgramInfoLog(sp, 512, NULL, infoLog);
-		std::cout << infoLog << std::endl;
-	}
-	glDeleteShader(vxsid);
-	glDeleteShader(fgmsid);
 
 	unsigned int vao;
 	unsigned int vbo;
@@ -119,8 +63,10 @@ int main(int argc, char **argv)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 
 	// Unbind vertex buffer object
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -129,7 +75,8 @@ int main(int argc, char **argv)
 	// Unbind vertex array object
 	glBindVertexArray(0);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	shader.Use();
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	while(!glfwWindowShouldClose(win))
 	{
@@ -139,7 +86,6 @@ int main(int argc, char **argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(sp);
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		// check events and swap the buffers
