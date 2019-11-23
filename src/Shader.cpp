@@ -13,7 +13,8 @@ Shader::Shader(const std::string & vertexPath, const std::string & fragmentPath)
         ss << ifs.rdbuf();
         ifs.close();
         vertexCode = ss.str();
-        ss.str(std::string());
+        ss.str("");
+        ss.clear();
 
         ifs.open(fragmentPath);
         ss << ifs.rdbuf();
