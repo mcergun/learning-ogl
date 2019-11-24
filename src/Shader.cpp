@@ -55,6 +55,24 @@ void Shader::Use()
     glUseProgram(ID);
 }
 
+void Shader::SetUniform(const std::string & name, bool value) const
+{
+    int varLoc = glGetUniformLocation(ID, name.c_str());
+    glUniform1i(varLoc, value);
+}
+
+void Shader::SetUniform(const std::string & name, int value) const
+{
+    int varLoc = glGetUniformLocation(ID, name.c_str());
+    glUniform1i(varLoc, value);
+}
+
+void Shader::SetUniform(const std::string & name, float value) const
+{
+    int varLoc = glGetUniformLocation(ID, name.c_str());
+    glUniform1f(varLoc, value);
+}
+
 bool Shader::IsCompileSuccessful(unsigned int shader)
 {
     bool ret = true;
