@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <Shader.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 constexpr int WIN_WID = 800;
 constexpr int WIN_HEI = 600;
@@ -35,19 +37,34 @@ int main(int argc, char **argv)
 	}
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // bl
-		-0.5f,  0.5f, 0.0f,  0.5f, 0.5f, 0.0f, // tl
-		 0.5f,  0.5f, 0.0f,  0.0f, 0.5f, 0.5f, // tr
-		 0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 0.1f, // br
+		-0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // bl
+		 0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 0.1f,   1.0f, 0.0f, // br
+		-0.5f,  0.5f, 0.0f,   0.5f, 0.5f, 0.0f,   0.0f, 1.0f, // tl
+		 0.5f,  0.5f, 0.0f,   0.0f, 0.5f, 0.5f,   1.0f, 1.0f, // tr
 	};
 
 	unsigned int indices[] = {
 		0, 1, 2, // first rectangle with bot-lf, top-lf, top-rt
-		0, 2, 3, // second rectangle with bot-lf, top-rt, bot-rt
+		2, 3, 1, // second rectangle with bot-lf, top-rt, bot-rt
 	};
 
 	Shader shader("shaders/simplevertex.glsl", "shaders/simplefragment.glsl");
 
+	int wid = 0;
+	int hei = 0;
+	int nch = 0;
+
+	unsigned char *data = stbi_load("textures/container.jpg", &wid, &hei, &nch, 0);
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, wid, hei, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(data);
 
 	unsigned int vao;
 	unsigned int vbo;
@@ -63,10 +80,12 @@ int main(int argc, char **argv)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	// Unbind vertex buffer object
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -86,6 +105,7 @@ int main(int argc, char **argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		glBindTexture(GL_TEXTURE_2D, texture);
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		// check events and swap the buffers
