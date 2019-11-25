@@ -44,8 +44,8 @@ int main(int argc, char **argv)
 	};
 
 	unsigned int indices[] = {
-		0, 1, 2, // first rectangle with bot-lf, top-lf, top-rt
-		2, 3, 1, // second rectangle with bot-lf, top-rt, bot-rt
+		0, 1, 2, // first rectangle with bl, br, tl
+		2, 3, 1, // second rectangle with tl, tr, br
 	};
 
 	Shader shader("shaders/simplevertex.glsl", "shaders/simplefragment.glsl");
@@ -54,16 +54,29 @@ int main(int argc, char **argv)
 	int hei = 0;
 	int nch = 0;
 
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char *data = stbi_load("textures/container.jpg", &wid, &hei, &nch, 0);
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	unsigned int texture1;
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, wid, hei, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(data);
+
+	data = stbi_load("textures/awesomeface.png", &wid, &hei, &nch, 0);
+	unsigned int texture2;
+	glGenTextures(1, &texture2);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, wid, hei, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(texture2);
 	stbi_image_free(data);
 
 	unsigned int vao;
@@ -95,6 +108,8 @@ int main(int argc, char **argv)
 	glBindVertexArray(0);
 
 	shader.Use();
+	shader.SetUniform("texture1", 0);
+	shader.SetUniform("texture2", 1);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	while(!glfwWindowShouldClose(win))
@@ -105,7 +120,10 @@ int main(int argc, char **argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2);
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		// check events and swap the buffers
