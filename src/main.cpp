@@ -2,8 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <Shader.h>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include <Texture.h>
 
 constexpr int WIN_WID = 800;
 constexpr int WIN_HEI = 600;
@@ -50,34 +49,11 @@ int main(int argc, char **argv)
 
 	Shader shader("shaders/simplevertex.glsl", "shaders/simplefragment.glsl");
 
-	int wid = 0;
-	int hei = 0;
-	int nch = 0;
+	Texture tex1("textures/container.jpg", Texture_2D, Color_RGB);
+	tex1.Bind();
 
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char *data = stbi_load("textures/container.jpg", &wid, &hei, &nch, 0);
-	unsigned int texture1;
-	glGenTextures(1, &texture1);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, wid, hei, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(data);
-
-	data = stbi_load("textures/awesomeface.png", &wid, &hei, &nch, 0);
-	unsigned int texture2;
-	glGenTextures(1, &texture2);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, wid, hei, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(texture2);
-	stbi_image_free(data);
+	Texture tex2("textures/awesomeface.png", Texture_2D, Color_RGBA);
+	tex2.Bind();
 
 	unsigned int vao;
 	unsigned int vbo;
@@ -120,10 +96,11 @@ int main(int argc, char **argv)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture1);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture2);
+		Texture::Activate(0);
+		tex1.Bind();
+		Texture::Activate(1);
+		tex2.Bind();
+
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		// check events and swap the buffers
@@ -132,6 +109,7 @@ int main(int argc, char **argv)
 	}
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
 	glfwTerminate();
 
 	std::cout << "Hello world!" << std::endl;
