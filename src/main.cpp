@@ -1,11 +1,12 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <Shader.h>
-#include <Texture.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <Shader.h>
+#include <Texture.h>
+#include <Drawer.h>
 
 constexpr int WIN_WID = 800;
 constexpr int WIN_HEI = 600;
@@ -63,19 +64,13 @@ int main(int argc, char **argv)
 	Texture tex2("textures/awesomeface.png", Texture_2D, Color_RGBA);
 	tex2.Bind();
 
-	unsigned int vao;
-	unsigned int vbo;
-	unsigned int ebo;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ebo);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	Drawer drawer;
+	drawer.AddVertexArray();
+	drawer.BindVertexArray();
+	drawer.AddVertexBuffer(vertices, sizeof(vertices));
+	drawer.BindVertexBuffer();
+	drawer.AddIndiceBuffer(indices, sizeof(indices));
+	drawer.BindIndiceBuffer();
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
@@ -111,15 +106,16 @@ int main(int argc, char **argv)
 		tex2.Bind();
 		shader.SetUniform("transform", trans);
 
-		glBindVertexArray(vao);
+		// glBindVertexArray(vao);
+		drawer.BindVertexArray();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		// check events and swap the buffers
 		glfwSwapBuffers(win);
 		glfwPollEvents();
 	}
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &vbo);
-	glDeleteBuffers(1, &ebo);
+	drawer.DeleteVertexArrays();
+	drawer.DeleteVertexBuffers();
+	drawer.DeleteIndiceBuffers();
 	glfwTerminate();
 
 	std::cout << "Hello world!" << std::endl;
