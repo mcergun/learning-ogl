@@ -3,6 +3,9 @@
 #include <GLFW/glfw3.h>
 #include <Shader.h>
 #include <Texture.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 constexpr int WIN_WID = 800;
 constexpr int WIN_HEI = 600;
@@ -47,6 +50,11 @@ int main(int argc, char **argv)
 		2, 3, 1, // second rectangle with tl, tr, br
 	};
 
+	glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
+	glm::mat4 trans = glm::mat4(1.0f);
+	vec = trans * vec;
+	std::cout << vec.x << vec.y << vec.z << vec.w << std::endl;
+
 	Shader shader("shaders/simplevertex.glsl", "shaders/simplefragment.glsl");
 
 	Texture tex1("textures/container.jpg", Texture_2D, Color_RGB);
@@ -90,6 +98,7 @@ int main(int argc, char **argv)
 
 	while(!glfwWindowShouldClose(win))
 	{
+		trans = glm::rotate(trans, glm::radians(1.0f), glm::vec3(0.5f, 0.0f, 0.5f));
 		// handle input
 		ProcessInput(win);
 		// handle rendering
@@ -100,6 +109,7 @@ int main(int argc, char **argv)
 		tex1.Bind();
 		Texture::Activate(1);
 		tex2.Bind();
+		shader.SetUniform("transform", trans);
 
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
