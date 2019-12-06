@@ -15,6 +15,10 @@ constexpr int WIN_HEI = 600;
 void cbFrameBufferSize(GLFWwindow *win, int wid, int hei);
 void ProcessInput(GLFWwindow *win);
 
+glm::mat4 model = glm::mat4(1.0f);
+glm::mat4 view = glm::mat4(1.0f);
+glm::mat4 projection = glm::mat4(1.0f);
+
 int main(int argc, char **argv)
 {
 	glfwInit();
@@ -40,10 +44,17 @@ int main(int argc, char **argv)
 	}
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // bl
-		 0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 0.1f,   1.0f, 0.0f, // br
-		-0.5f,  0.5f, 0.0f,   0.5f, 0.5f, 0.0f,   0.0f, 1.0f, // tl
-		 0.5f,  0.5f, 0.0f,   0.0f, 0.5f, 0.5f,   1.0f, 1.0f, // tr
+		-0.6f, -0.6f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // bl
+		 0.6f, -0.6f, 0.0f,   0.0f, 0.0f, 0.1f,   1.0f, 0.0f, // br
+		-0.6f,  0.6f, 0.0f,   0.5f, 0.5f, 0.0f,   0.0f, 1.0f, // tl
+		 0.6f,  0.6f, 0.0f,   0.0f, 0.5f, 0.5f,   1.0f, 1.0f, // tr
+	};
+
+	float vertices2[] = {
+		-0.6f, -0.6f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // bl
+		 0.6f, -0.6f, 0.0f,   0.0f, 0.0f, 0.1f,   1.0f, 0.0f, // br
+		-0.6f,  0.6f, 0.0f,   0.5f, 0.5f, 0.0f,   0.0f, 1.0f, // tl
+		 0.6f,  0.6f, 0.0f,   0.0f, 0.5f, 0.5f,   1.0f, 1.0f, // tr
 	};
 
 	unsigned int indices[] = {
@@ -51,10 +62,6 @@ int main(int argc, char **argv)
 		2, 3, 1, // second rectangle with tl, tr, br
 	};
 
-	glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
-	glm::mat4 trans = glm::mat4(1.0f);
-	vec = trans * vec;
-	std::cout << vec.x << vec.y << vec.z << vec.w << std::endl;
 
 	Shader shader("shaders/simplevertex.glsl", "shaders/simplefragment.glsl");
 
@@ -91,9 +98,27 @@ int main(int argc, char **argv)
 	shader.SetUniform("texture2", 1);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	projection = glm::perspective(glm::radians(45.0f), (float)WIN_WID / WIN_HEI, 0.1f, 100.0f);
+	// trans = (projection * view) * model;
+
+	shader.SetUniform("model", model);
+	shader.SetUniform("view", view);
+	shader.SetUniform("projection", projection);
+
+	int counter = 0;
 	while(!glfwWindowShouldClose(win))
 	{
-		trans = glm::rotate(trans, glm::radians(1.0f), glm::vec3(0.5f, 0.0f, 0.5f));
+		// if (counter++ % 20 < 10)
+		// {
+		// 	trans = glm::translate(trans, glm::vec3(0.005f, 0.005f, 0.005f));
+		// }
+		// else
+		// {
+		// 	trans = glm::translate(trans, glm::vec3(-0.005f, -0.005f, -0.005f));
+		// }
+		// trans = glm::rotate(trans, glm::radians(1.0f), glm::vec3(0.5f, 0.0f, 0.5f));
 		// handle input
 		ProcessInput(win);
 		// handle rendering
@@ -104,10 +129,9 @@ int main(int argc, char **argv)
 		tex1.Bind();
 		Texture::Activate(1);
 		tex2.Bind();
-		shader.SetUniform("transform", trans);
 
-		// glBindVertexArray(vao);
-		drawer.BindVertexArray();
+		shader.SetUniform("view", view);
+		drawer.BindVertexArray(0);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		// check events and swap the buffers
 		glfwSwapBuffers(win);
@@ -125,7 +149,7 @@ int main(int argc, char **argv)
 void cbFrameBufferSize(GLFWwindow *win, int wid, int hei)
 {
 	// update viewport scalings
-	glViewport(0, 0, wid, hei);
+	// glViewport(0, 0, wid, hei);
 }
 
 void ProcessInput(GLFWwindow *win)
@@ -133,5 +157,21 @@ void ProcessInput(GLFWwindow *win)
 	if(glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(win, true);
+	}
+	if (glfwGetKey(win, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, 0.1f));
+	}
+	if (glfwGetKey(win, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -0.1f));
+	}
+	if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		view = glm::translate(view, glm::vec3(-0.1f, 0.0f, -0.0f));
+	}
+	if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		view = glm::translate(view, glm::vec3(0.1f, 0.0f, 0.0f));
 	}
 }
