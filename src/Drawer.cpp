@@ -41,7 +41,7 @@ void Drawer::AddVertexBuffer(void *buf, unsigned int len)
     printf("New vertex buffer %d\r\n", id);
 }
 
-void Drawer::AddIndiceBuffer(unsigned int *buf, unsigned int len)
+void Drawer::AddIndexBuffer(unsigned int *buf, unsigned int len)
 {
     unsigned int id = 0;
     glGenBuffers(1, &id);
@@ -49,7 +49,7 @@ void Drawer::AddIndiceBuffer(unsigned int *buf, unsigned int len)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, len, buf, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    printf("New indice buffer %d\r\n", id);
+    printf("New Index buffer %d\r\n", id);
 }
 
 void Drawer::BindVertexArray(unsigned int idx)
@@ -63,10 +63,10 @@ void Drawer::BindVertexBuffer(unsigned int idx)
     printf("binding vertex buffer %d\r\n", VBOList[idx]);
 }
 
-void Drawer::BindIndiceBuffer(unsigned int idx)
+void Drawer::BindIndexBuffer(unsigned int idx)
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOList[idx]);
-    printf("binding indice buffer %d\r\n", EBOList[idx]);
+    printf("binding Index buffer %d\r\n", EBOList[idx]);
 }
 
 void Drawer::DeleteVertexArrays()
@@ -87,7 +87,7 @@ void Drawer::DeleteVertexBuffers()
     VBOList.clear();
 }
 
-void Drawer::DeleteIndiceBuffers()
+void Drawer::DeleteIndexBuffers()
 {
     for (unsigned int i = 0; i < EBOList.size(); i++)
     {
