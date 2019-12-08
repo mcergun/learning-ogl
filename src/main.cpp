@@ -125,30 +125,47 @@ int main(int argc, char **argv)
 	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 	projection = glm::perspective(glm::radians(45.0f), (float)WIN_WID / WIN_HEI, 0.1f, 100.0f);
-	// trans = (projection * view) * model;
+
+	glm::vec3 cubePositions[] = {
+		glm::vec3( 0.0f,  0.0f,  0.0f),
+		glm::vec3( 2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3( 2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3( 1.3f, -2.0f, -2.5f),
+		glm::vec3( 1.5f,  2.0f, -2.5f),
+		glm::vec3( 1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
 
 	shader.SetUniform("model", model);
 	shader.SetUniform("view", view);
 	shader.SetUniform("projection", projection);
 
 	glEnable(GL_DEPTH_TEST);
+	static float lastAngle = 0.0f;
 	while(!glfwWindowShouldClose(win))
 	{
-		model = glm::rotate(model, glm::radians(1.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 		ProcessInput(win);
-		// handle rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		Texture::Activate(0);
 		tex1.Bind();
 		Texture::Activate(1);
 		tex2.Bind();
 
-		shader.SetUniform("view", view);
-		shader.SetUniform("model", model);
 		drawer.BindVertexArray(0);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glm::mat4 baseModel = glm::mat4(1.0f);
+		lastAngle += 0.2f;
+		for (size_t i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++)
+		{
+			model = glm::translate(baseModel, cubePositions[i]);
+			model = glm::rotate(model, glm::radians(lastAngle * (i + 1)), glm::vec3(0.5f, 1.0f, 0.0f));
+			shader.SetUniform("view", view);
+			shader.SetUniform("model", model);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 		// check events and swap the buffers
 		glfwSwapBuffers(win);
 		glfwPollEvents();
@@ -176,18 +193,18 @@ void ProcessInput(GLFWwindow *win)
 	}
 	if (glfwGetKey(win, GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, 0.1f));
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, 0.05f));
 	}
 	if (glfwGetKey(win, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -0.1f));
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -0.05f));
 	}
 	if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
-		view = glm::translate(view, glm::vec3(-0.1f, 0.0f, -0.0f));
+		view = glm::translate(view, glm::vec3(-0.05f, 0.0f, -0.0f));
 	}
 	if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
-		view = glm::translate(view, glm::vec3(0.1f, 0.0f, 0.0f));
+		view = glm::translate(view, glm::vec3(0.05f, 0.0f, 0.0f));
 	}
 }
