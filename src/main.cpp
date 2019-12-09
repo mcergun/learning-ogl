@@ -100,21 +100,13 @@ int main(int argc, char **argv)
 	Drawer drawer;
 	drawer.AddVertexArray();
 	drawer.BindVertexArray();
-	drawer.AddVertexBuffer(vertices, sizeof(vertices));
+	drawer.AddVertexBuffer(vertices, sizeof(vertices), 5 * sizeof(float));
 	drawer.BindVertexBuffer();
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-	glEnableVertexAttribArray(0);
-	// glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
+	drawer.AddVertexAttribute(0, DrawerType_Float, 3, false, 5 * sizeof(float), 0);
+	drawer.AddVertexAttribute(1, DrawerType_Float, 2, false, 5 * sizeof(float), 3 * sizeof(float));
 
-	// Unbind vertex buffer object
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	// Unbind element buffer object
-	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	// Unbind vertex array object
 	glBindVertexArray(0);
 
 	shader.Use();
@@ -164,7 +156,7 @@ int main(int argc, char **argv)
 			model = glm::rotate(model, glm::radians(lastAngle * (i + 1)), glm::vec3(0.5f, 1.0f, 0.0f));
 			shader.SetUniform("view", view);
 			shader.SetUniform("model", model);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+			drawer.DrawArrays();
 		}
 		// check events and swap the buffers
 		glfwSwapBuffers(win);

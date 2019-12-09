@@ -20,6 +20,8 @@ Drawer::Drawer()
     VAOList = std::vector<unsigned int>();
     VBOList = std::vector<unsigned int>();
     EBOList = std::vector<unsigned int>();
+    VBOSizeList = std::vector<unsigned int>();
+    EBOSizeList = std::vector<unsigned int>();
 }
 
 void Drawer::AddVertexArray()
@@ -30,22 +32,26 @@ void Drawer::AddVertexArray()
     printf("New vertex array %d\r\n", id);
 }
 
-void Drawer::AddVertexBuffer(void *buf, unsigned int len)
+void Drawer::AddVertexBuffer(void *buf, unsigned int len, unsigned int stride)
 {
     unsigned int id = 0;
     glGenBuffers(1, &id);
     VBOList.push_back(id);
+    VBOSizeList.push_back(len / stride);
+    printf("len / stride = %d\r\n", len / stride);
     glBindBuffer(GL_ARRAY_BUFFER, id);
     glBufferData(GL_ARRAY_BUFFER, len, buf, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     printf("New vertex buffer %d\r\n", id);
 }
 
-void Drawer::AddIndexBuffer(unsigned int *buf, unsigned int len)
+void Drawer::AddIndexBuffer(unsigned int *buf, unsigned int len, unsigned int stride)
 {
     unsigned int id = 0;
     glGenBuffers(1, &id);
     EBOList.push_back(id);
+    EBOSizeList.push_back(len / stride);
+    printf("len / stride = %d\r\n", len / stride);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, len, buf, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -55,6 +61,7 @@ void Drawer::AddIndexBuffer(unsigned int *buf, unsigned int len)
 void Drawer::BindVertexArray(unsigned int idx)
 {
     glBindVertexArray(VAOList[idx]);
+    ActiveIdx = idx;
 }
 
 void Drawer::BindVertexBuffer(unsigned int idx)
@@ -67,6 +74,12 @@ void Drawer::BindIndexBuffer(unsigned int idx)
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOList[idx]);
     printf("binding Index buffer %d\r\n", EBOList[idx]);
+}
+
+void Drawer::AddVertexAttribute(unsigned int index, DrawerPrimitiveTypes type, unsigned int count, bool normalize, unsigned int stride, unsigned int offset)
+{
+    glVertexAttribPointer(index, count, type, normalize, stride, reinterpret_cast<void *>(offset));
+    glEnableVertexAttribArray(index);
 }
 
 void Drawer::DeleteVertexArrays()
@@ -94,4 +107,14 @@ void Drawer::DeleteIndexBuffers()
         glDeleteVertexArrays(1, &EBOList[i]);
     }
     EBOList.clear();
+}
+
+void Drawer::DrawArrays()
+{
+    glDrawArrays(GL_TRIANGLES, 0, VBOSizeList[ActiveIdx]);
+}
+
+void Drawer::DrawElements()
+{
+    glDrawElements(GL_TRIANGLES, EBOSizeList[ActiveIdx], GL_UNSIGNED_INT, 0);
 }
