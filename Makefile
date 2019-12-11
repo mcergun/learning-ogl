@@ -1,22 +1,22 @@
 CC=gcc
-CFLAGS=-I. -Iinclude -Iglm -Wall
+CFLAGS=-Ioktan -Ioktan/vendor -Ioktan/vendor/glm -Ioktan/vendor/stb -Wall
 LIBS=`pkg-config --libs glfw3 gl` -ldl
 DEPS = hellomake.h
 
 main: dirs glad Shader Texture Drawer
-	${CXX} ${CFLAGS} src/main.cpp obj/glad.o obj/Shader.o obj/Texture.o obj/Drawer.o -o bin/main ${LIBS}
+	${CXX} ${CFLAGS} oktan/main.cpp obj/glad.o obj/Shader.o obj/Texture.o obj/Drawer.o -o bin/main ${LIBS}
 
 Shader: dirs
-	${CXX} ${CFLAGS} src/Shader.cpp -c -o obj/Shader.o
+	${CXX} ${CFLAGS} oktan/Shader.cpp -c -o obj/Shader.o
 
 Texture: dirs
-	${CXX} ${CFLAGS} src/Texture.cpp -c -o obj/Texture.o
+	${CXX} ${CFLAGS} oktan/Texture.cpp -c -o obj/Texture.o
 
 Drawer: dirs
-	${CXX} ${CFLAGS} src/Drawer.cpp -c -o obj/Drawer.o
+	${CXX} ${CFLAGS} oktan/Drawer.cpp -c -o obj/Drawer.o
 
 glad: dirs
-	${CXX} ${CFLAGS} -c src/glad/glad.c -o obj/glad.o
+	${CXX} ${CFLAGS} -c oktan/vendor/glad/glad.c -o obj/glad.o
 
 dirs:
 	@mkdir -p obj
