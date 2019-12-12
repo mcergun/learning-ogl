@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Ioktan -Ioktan/vendor -Ioktan/vendor/glm -Ioktan/vendor/stb -Wall
+CFLAGS=-I. -Ioktan -Ioktan/vendor -Ioktan/vendor/glm -Ioktan/vendor/stb -Wall
 LIBS=`pkg-config --libs glfw3 gl` -ldl
 DEPS = hellomake.h
 
@@ -17,6 +17,10 @@ Drawer: dirs
 
 glad: dirs
 	${CXX} ${CFLAGS} -c oktan/vendor/glad/glad.c -o obj/glad.o
+
+ogl:
+	${CXX} ${CFLAGS} -c oktan/platform/opengl/OGLIndexBuffer.cpp -o obj/OGLIndexBuffer.o
+	${CXX} ${CFLAGS} -c oktan/platform/opengl/OGLVertexBuffer.cpp -o obj/OGLVertexBuffer.o
 
 dirs:
 	@mkdir -p obj
