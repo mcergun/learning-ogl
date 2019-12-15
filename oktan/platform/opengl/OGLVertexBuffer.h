@@ -7,7 +7,7 @@ class OGLVertexBuffer
 {
 public:
     OGLVertexBuffer(float *vertices, uint32_t size);
-    virtual ~OGLVertexBuffer();
+    ~OGLVertexBuffer();
 
     virtual void Bind() const;
     virtual void Unbind() const;

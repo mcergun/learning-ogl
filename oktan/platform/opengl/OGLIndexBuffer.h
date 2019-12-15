@@ -7,7 +7,7 @@ class OGLIndexBuffer
 {
 public:
     OGLIndexBuffer(float *indices, uint32_t size);
-    virtual ~OGLIndexBuffer();
+    ~OGLIndexBuffer();
 
     virtual void Bind() const;
     virtual void Unbind() const;

@@ -3,4 +3,26 @@
 
 #include <cstdint>
 
+namespace oktan
+{
+    enum class BaseType
+    {
+        Float,
+        Float2,
+        Float3,
+        Int,
+        Int2,
+        Int3,
+        UInt,
+        UInt2,
+        UInt3,
+        Mat2,
+        Mat3,
+        Mat4,
+        Vec2,
+        Vec3,
+        Vec4,
+    };
+}
+
 #endif
