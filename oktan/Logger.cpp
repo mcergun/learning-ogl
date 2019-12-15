@@ -1,10 +1,10 @@
-#include <iostream>
+#include <spdlog/include/spdlog/spdlog.h>
 #include "Logger.h"
 
 namespace oktan
 {
     void Logger::Print(std::string str)
     {
-        std::cout << str;
+        spdlog::info("Hello, {}!", "World");
     }
 }

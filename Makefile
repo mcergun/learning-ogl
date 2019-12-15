@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I. -Ioktan -Ioktan/vendor -Ioktan/vendor/glm -Ioktan/vendor/stb -Wall
+CFLAGS=-I. -Ioktan -Ioktan/vendor -Ioktan/vendor/glm -Ioktan/vendor/stb -Ioktan/vendor/spdlog/include -Wall
 LIBS=`pkg-config --libs glfw3 gl` -ldl
 DEPS = hellomake.h
 
