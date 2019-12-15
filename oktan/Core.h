@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+#define OK_OGL_ENABLED 1
+
 namespace oktan
 {
     enum class BaseType

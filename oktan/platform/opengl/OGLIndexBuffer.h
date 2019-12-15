@@ -2,18 +2,22 @@
 #define _OK_OGL_INDEXBUFFER_H_
 
 #include "Core.h"
+#include "Buffers.h"
 
-class OGLIndexBuffer
+namespace oktan
 {
-public:
-    OGLIndexBuffer(float *indices, uint32_t size);
-    ~OGLIndexBuffer();
+    class OGLIndexBuffer : public IndexBuffer
+    {
+    public:
+        OGLIndexBuffer(uint32_t *indices, uint32_t size);
+        virtual ~OGLIndexBuffer();
 
-    virtual void Bind() const;
-    virtual void Unbind() const;
+        virtual void Bind() const;
+        virtual void Unbind() const;
 
-private:
-    uint32_t m_Id = 0;
-};
+    private:
+        uint32_t m_Id = 0;
+    };
+}
 
 #endif
