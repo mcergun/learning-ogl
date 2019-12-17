@@ -7,3 +7,6 @@
 [submodule "oktan/vendor/spdlog"]
 	path = oktan/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "oktan/vendor/glfw"]
+	path = oktan/vendor/glfw
+	url = https://github.com/glfw/glfw
