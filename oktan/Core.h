@@ -2,6 +2,7 @@
 #define _OK_CORE_H_
 
 #include <cstdint>
+#include <memory>
 
 #define OK_OGL_ENABLED 1
 

@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS=-I. -Ioktan -Ioktan/vendor -Ioktan/vendor/glm -Ioktan/vendor/stb -Ioktan/vendor/spdlog/include -Wall
-LIBS=`pkg-config --libs glfw3 gl` -ldl
+CFLAGS=-I. -Ioktan -Ioktan/vendor -Ioktan/vendor/glad/include -Ioktan/vendor/glm -Ioktan/vendor/stb -Ioktan/vendor/spdlog/include -Wall
+LIBS=`pkg-config --libs glfw3 gl` -ldl -pthread
 DEPS = hellomake.h
 
 main: dirs glad Shader Texture Drawer
@@ -16,7 +16,7 @@ Drawer: dirs
 	${CXX} ${CFLAGS} oktan/Drawer.cpp -c -o obj/Drawer.o
 
 glad: dirs
-	${CXX} ${CFLAGS} -c oktan/vendor/glad/glad.c -o obj/glad.o
+	${CXX} ${CFLAGS} -c oktan/vendor/glad/src/glad.c -o obj/glad.o
 
 main2: dirs ogl glad
 	${CXX} ${CFLAGS} oktan/platform/opengl/main.cpp obj/Buffers.o obj/Logger.o obj/glad.o obj/OGLBufferLayout.o obj/OGLIndexBuffer.o obj/OGLVertexBuffer.o -o bin/main2 ${LIBS}

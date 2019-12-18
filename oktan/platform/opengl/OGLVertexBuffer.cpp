@@ -6,16 +6,17 @@ namespace oktan
 {
     OGLVertexBuffer::OGLVertexBuffer(float *vertices, uint32_t size)
     {
-        Logger::Print("created vertex buffer\n");
         glGenBuffers(1, &m_Id);
         glBindBuffer(GL_ARRAY_BUFFER, m_Id);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+        OK_LOG_TRACE("created vertex buffer {}", m_Id);
     }
 
     OGLVertexBuffer::~OGLVertexBuffer()
     {
         Unbind();
         glDeleteBuffers(1, &m_Id);
+        OK_LOG_TRACE("deleting vertex buffer {}", m_Id);
     }
 
     void OGLVertexBuffer::Bind() const
