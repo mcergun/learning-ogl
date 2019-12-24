@@ -1,6 +1,6 @@
 #include <glad/glad.h>
-#include "platform/opengl/OGLVertexBuffer.h"
-#include "Logger.h"
+#include <oktan/Logger.h>
+#include "OGLVertexBuffer.h"
 
 namespace oktan
 {

@@ -1,7 +1,7 @@
 #ifndef _OK_BUFFERS_H_
 #define _OK_BUFFERS_H_
 
-#include "oktan/Core.h"
+#include "Core.h"
 
 namespace oktan
 {

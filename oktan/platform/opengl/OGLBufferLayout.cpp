@@ -1,4 +1,4 @@
-#include <platform/opengl/OGLBufferLayout.h>
+#include "OGLBufferLayout.h"
 
 namespace oktan
 {

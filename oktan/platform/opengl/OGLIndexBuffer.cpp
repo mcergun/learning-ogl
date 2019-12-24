@@ -1,5 +1,5 @@
 #include <glad/glad.h>
-#include "platform/opengl/OGLIndexBuffer.h"
+#include "OGLIndexBuffer.h"
 
 namespace oktan
 {
