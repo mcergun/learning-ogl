@@ -53,10 +53,5 @@
 			"typeinfo": "cpp",
 			"cstring": "cpp"
 		},
-		"files.exclude": {
-			"**/.vscode": true,
-			"**/bin": true,
-			"**/obj": true
-		}
 	}
 }

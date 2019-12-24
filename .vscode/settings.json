@@ -46,5 +46,12 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "cstring": "cpp"
+    },
+    "files.exclude": {
+        "**/CMakeFiles": true,
+        "**/CMakeCache.txt": true,
+        "**/cmake_install.cmake": true,
+        "**/bin": true,
+        "**/obj": true,
     }
 }
