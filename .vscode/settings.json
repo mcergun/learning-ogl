@@ -53,5 +53,6 @@
         "**/cmake_install.cmake": true,
         "**/bin": true,
         "**/obj": true,
+        "**/*.a": true,
     }
 }
