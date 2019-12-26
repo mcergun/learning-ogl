@@ -1,6 +1,6 @@
-#include "oktan/Buffers.h"
-#include "oktan/platform/opengl/OGLVertexBuffer.h"
-#include "oktan/platform/opengl/OGLIndexBuffer.h"
+#include "Buffers.h"
+#include "platform/opengl/OGLVertexBuffer.h"
+#include "platform/opengl/OGLIndexBuffer.h"
 
 namespace oktan
 {

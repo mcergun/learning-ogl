@@ -1,4 +1,4 @@
-#include <spdlog/include/spdlog/spdlog.h>
+#include <spdlog/spdlog.h>
 #include "Logger.h"
 
 namespace oktan
