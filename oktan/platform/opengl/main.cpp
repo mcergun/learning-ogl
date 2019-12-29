@@ -5,6 +5,7 @@
 #include "OGLVertexBuffer.h"
 #include "OGLIndexBuffer.h"
 #include <oktan/Logger.h>
+#include <oktan/Version.h>
 
 int main(int argc, char **argv)
 {
@@ -33,6 +34,11 @@ int main(int argc, char **argv)
 	}
 	OK_APP_LOG_TRACE("glad loaded");
 
+	OK_LOG_INFO("Oktan Started: v{}.{}.{}.{}",
+		PROJECT_VERSION_MAJOR,
+		PROJECT_VERSION_MINOR,
+		PROJECT_VERSION_PATCH,
+		PROJECT_VERSION_TWEAK);
 
     float vertices[] = {0.1f, 0.1f, 0.1f, 0.1f};
     auto vtx = oktan::VertexBuffer::Create(vertices, 4);
