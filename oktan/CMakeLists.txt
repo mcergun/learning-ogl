@@ -6,13 +6,14 @@ project(oktan VERSION 0.0.0.1)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-# Add glfw, this will define opengl definitions as well
-add_subdirectory(vendor/glfw)
-# Add glm for math operations
-add_subdirectory(vendor/glm)
-# Add platform libraries
-add_subdirectory(platform/opengl)
 
+# Add vendor libraries
+add_subdirectory(vendor)
+
+# Add platform libraries
+add_subdirectory(platform)
+
+# Add include paths
 include_directories(
     ".."
     "."
@@ -23,7 +24,9 @@ include_directories(
 )
 
 
-add_library(oktan-engine Buffers.cpp Logger.cpp)
-add_library(glad vendor/glad/src/glad.c)
+add_library(oktan-engine Buffers.cpp Logger.cpp Window.cpp)
 
-target_link_libraries(oktan-engine glfw glad oktan-opengl)
+# Link vendors
+target_link_libraries(oktan-engine oktan-vendor)
+# Link platforms
+target_link_libraries(oktan-engine oktan-platform)
