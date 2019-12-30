@@ -3,7 +3,7 @@
 
 #include <initializer_list>
 #include <vector>
-#include <Core.h>
+#include <oktan/Core.h>
 
 namespace oktan
 {
