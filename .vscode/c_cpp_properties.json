@@ -3,8 +3,13 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/oktan/**"
+                "${workspaceFolder}",
+                "${workspaceFolder}/oktan/",
+                "${workspaceFolder}/oktan/vendor",
+                "${workspaceFolder}/oktan/vendor/glad/include",
+                "${workspaceFolder}/oktan/vendor/glad/include",
+                "${workspaceFolder}/oktan/vendor/glm",
+                "${workspaceFolder}/oktan/vendor/spdlog/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
