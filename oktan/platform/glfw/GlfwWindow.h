@@ -1,7 +1,7 @@
 #ifndef _OK_GLFW_WINDOW_H_
 #define _OK_GLFW_WINDOW_H_
 
-#include <oktan/Window.h>
+#include <oktan/drawer/Window.h>
 
 namespace oktan
 {

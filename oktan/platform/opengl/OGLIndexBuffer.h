@@ -1,8 +1,8 @@
 #ifndef _OK_OGL_INDEXBUFFER_H_
 #define _OK_OGL_INDEXBUFFER_H_
 
-#include <oktan/Core.h>
-#include <oktan/Buffers.h>
+#include <Core.h>
+#include <oktan/drawer/Buffers.h>
 
 namespace oktan
 {

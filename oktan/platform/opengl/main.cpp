@@ -1,9 +1,9 @@
 #include <iostream>
 #include <oktan/Logger.h>
 #include <oktan/Version.h>
-#include <oktan/Buffers.h>
-#include <oktan/Window.h>
-#include <oktan/Shader.h>
+#include <oktan/drawer/Buffers.h>
+#include <oktan/drawer/Window.h>
+#include <oktan/drawer/Shader.h>
 
 int main(int argc, char **argv)
 {

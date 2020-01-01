@@ -1,7 +1,7 @@
 #ifndef _OK_OGL_SHADER_H_
 #define _OK_OGL_SHADER_H_
 
-#include <oktan/Shader.h>
+#include <oktan/drawer/Shader.h>
 
 namespace oktan
 {
