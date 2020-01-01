@@ -74,4 +74,35 @@ namespace oktan
         return ret;
     }
 
+    void OGLShader::Use()
+    {
+
+    }
+    
+    void OGLShader::SetUniform(const std::string & name, bool value)
+    {
+
+    }
+    
+    void OGLShader::SetUniform(const std::string & name, int32_t value)
+    {
+
+    }
+    
+    void OGLShader::SetUniform(const std::string & name, uint32_t value)
+    {
+
+    }
+    
+    void OGLShader::SetUniform(const std::string & name, float value)
+    {
+
+    }
+    
+    void OGLShader::SetUniform(const std::string & name, glm::mat4 & value)
+    {
+
+    }
+    
+
 }

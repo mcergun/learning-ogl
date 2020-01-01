@@ -17,7 +17,7 @@ namespace oktan
     {
     public:
         virtual ~Shader() = default;
-        virtual void Use();
+        virtual void Use() = 0;
         virtual void SetUniform(const std::string & name, bool value) = 0;
         virtual void SetUniform(const std::string & name, int32_t value) = 0;
         virtual void SetUniform(const std::string & name, uint32_t value) = 0;
