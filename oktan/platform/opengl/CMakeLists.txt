@@ -5,12 +5,14 @@ include_directories(
     "../.."
     "../../.."
     "../../vendor/glad/include"
+    "../../vendor/glm/"
 )
 
 add_library(oktan-opengl
             OGLBufferLayout.cpp
             OGLIndexBuffer.cpp
             OGLVertexBuffer.cpp
+            OGLShader.cpp
 )
 
-target_link_libraries(oktan-opengl glad)
+# target_link_libraries(oktan-opengl)

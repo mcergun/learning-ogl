@@ -3,6 +3,7 @@
 #include <oktan/Version.h>
 #include <oktan/Buffers.h>
 #include <oktan/Window.h>
+#include <oktan/Shader.h>
 
 int main(int argc, char **argv)
 {
@@ -19,6 +20,7 @@ int main(int argc, char **argv)
 		PROJECT_VERSION_TWEAK);
 
     float vertices[] = {0.1f, 0.1f, 0.1f, 0.1f};
+	auto shader = oktan::Shader::Create("shaders/simplevertex.glsl", "shaders/simplefragment.glsl");
     auto vtx = oktan::VertexBuffer::Create(vertices, 4);
     vtx->Bind();
 	delete vtx;
