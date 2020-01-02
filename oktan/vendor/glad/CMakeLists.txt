@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
-project(glad VERSION 1.0)
+cmake_minimum_required(VERSION 3.11)
 
 include_directories("./include")
 
