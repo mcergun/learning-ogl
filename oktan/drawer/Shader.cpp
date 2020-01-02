@@ -1,6 +1,6 @@
 #include "Shader.h"
 #include <glm/gtc/type_ptr.hpp>
-#include "platform/opengl/OGLShader.h"
+#include <oktan/platform/opengl/OGLShader.h>
 
 namespace oktan
 {

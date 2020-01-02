@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Core.h"
+#include <oktan/Core.h>
 
 namespace oktan
 {

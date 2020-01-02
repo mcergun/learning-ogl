@@ -1,7 +1,7 @@
 #ifndef _OK_OGL_VERTEXBUFFER_H_
 #define _OK_OGL_VERTEXBUFFER_H_
 
-#include <Core.h>
+#include <oktan/Core.h>
 #include <oktan/drawer/Buffers.h>
 
 namespace oktan

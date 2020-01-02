@@ -1,5 +1,7 @@
-#include "OGLShader.h"
+#include <glad/glad.h>
 #include <oktan/FileLoader.h>
+
+#include "OGLShader.h"
 
 namespace oktan
 {

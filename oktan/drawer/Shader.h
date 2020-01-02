@@ -1,7 +1,6 @@
 #ifndef _SHADER_H_
 #define _SHADER_H_
 
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 #include <string>
@@ -9,7 +8,7 @@
 #include <sstream>
 #include <iostream>
 
-#include "Core.h"
+#include <oktan/Core.h>
 
 namespace oktan
 {
@@ -38,21 +37,5 @@ namespace oktan
         Shader() = default;
     };
 }
-
-// class Shader
-// {
-// public:
-//     unsigned int ID;
-//     Shader(const std::string & vertexPath, const std::string & fragmentPath);
-//     void Use();
-//     void SetUniform(const std::string & name, bool value) const;
-//     void SetUniform(const std::string & name, int value) const;
-//     void SetUniform(const std::string & name, float value) const;
-//     void SetUniform(const std::string &name, glm::mat4 & value) const;
-
-// private:
-//     bool IsCompileSuccessful(unsigned int shader);
-//     bool IsLinkSuccessful(unsigned int shader);
-// };
 
 #endif // _SHADER_H_

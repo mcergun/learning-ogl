@@ -1,5 +1,5 @@
 #include "Window.h"
-#include "platform/glfw/GlfwWindow.h"
+#include <oktan/platform/glfw/GlfwWindow.h>
 
 namespace oktan
 {
