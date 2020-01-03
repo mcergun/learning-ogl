@@ -8,7 +8,7 @@ include_directories(
     "../vendor/glad/include/"
 )
 
-add_library(oktan-drawer
+add_library(oktan-drawer STATIC
             Buffers.cpp
             Shader.cpp
             Window.cpp

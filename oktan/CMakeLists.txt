@@ -31,7 +31,7 @@ include_directories(
     "./vendor/glm"
 )
 
-add_library(oktan-generic
+add_library(oktan-generic STATIC
     Logger.cpp
     FileLoader.cpp
 )

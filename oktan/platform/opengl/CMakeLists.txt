@@ -8,7 +8,7 @@ include_directories(
     "../../vendor/glm/"
 )
 
-add_library(oktan-opengl
+add_library(oktan-opengl STATIC
             OGLBufferLayout.cpp
             OGLIndexBuffer.cpp
             OGLVertexBuffer.cpp

@@ -7,6 +7,6 @@ include_directories(
     "../../vendor/glad/include"
 )
 
-add_library(oktan-glfw GlfwWindow.cpp)
+add_library(oktan-glfw STATIC GlfwWindow.cpp)
 
 target_link_libraries(oktan-glfw glfw)
