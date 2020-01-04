@@ -4,6 +4,7 @@
 #include <oktan/renderer/Buffers.h>
 #include <oktan/renderer/Window.h>
 #include <oktan/renderer/Shader.h>
+#include <oktan/renderer/Texture.h>
 
 int main(int argc, char **argv)
 {
@@ -20,8 +21,9 @@ int main(int argc, char **argv)
 		PROJECT_VERSION_TWEAK);
 
     float vertices[] = {0.1f, 0.1f, 0.1f, 0.1f};
-	auto shader = oktan::Shader::Create("shaders/simplevertex.glsl", "shaders/simplefragment.glsl");
+	auto shader = oktan::Shader::Create("./shaders/simplevertex.glsl", "./shaders/simplefragment.glsl");
     auto vtx = oktan::VertexBuffer::Create(vertices, 4);
+	auto tex = oktan::Texture::Create("./textures/wall.jpg", oktan::TextureType::Texture_2D, oktan::ColorType::Color_RGB);
     vtx->Bind();
 	delete vtx;
     std::cout << "hello world!" << std::endl;

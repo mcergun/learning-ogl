@@ -13,4 +13,5 @@ add_library(oktan-renderer STATIC
             Buffers.cpp
             Shader.cpp
             Window.cpp
+            Texture.cpp
 )

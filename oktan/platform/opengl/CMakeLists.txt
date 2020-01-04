@@ -5,7 +5,8 @@ include_directories(
     "../.."
     "../../.."
     "../../vendor/glad/include"
-    "../../vendor/glm/"
+    "../../vendor/glm"
+    "../../vendor/stb"
 )
 
 add_library(oktan-opengl STATIC
@@ -13,6 +14,7 @@ add_library(oktan-opengl STATIC
             OGLIndexBuffer.cpp
             OGLVertexBuffer.cpp
             OGLShader.cpp
+            OGLTexture.cpp
 )
 
 # target_link_libraries(oktan-opengl)
