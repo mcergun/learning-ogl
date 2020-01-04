@@ -4,11 +4,12 @@ include_directories(
     "."
     ".."
     "../.."
-    "../vendor/glm/"
-    "../vendor/glad/include/"
+    "../vendor/glm"
+    "../vendor/glad/include"
+    "../vendor/stb"
 )
 
-add_library(oktan-drawer STATIC
+add_library(oktan-renderer STATIC
             Buffers.cpp
             Shader.cpp
             Window.cpp

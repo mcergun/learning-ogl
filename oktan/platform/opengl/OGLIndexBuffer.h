@@ -2,7 +2,7 @@
 #define _OK_OGL_INDEXBUFFER_H_
 
 #include <Core.h>
-#include <oktan/drawer/Buffers.h>
+#include <oktan/renderer/Buffers.h>
 
 namespace oktan
 {

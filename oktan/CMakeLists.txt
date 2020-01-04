@@ -19,7 +19,7 @@ add_subdirectory(platform)
 # add_subdirectory(platform/glfw)
 
 # Add engine parts
-add_subdirectory(drawer)
+add_subdirectory(renderer)
 
 # Add include paths
 include_directories(
@@ -39,7 +39,7 @@ add_library(oktan-generic STATIC
 add_library(oktan-engine INTERFACE)
 
 target_link_libraries(oktan-engine INTERFACE
-oktan-drawer
+oktan-renderer
 oktan-opengl
 oktan-glfw
 oktan-vendor
