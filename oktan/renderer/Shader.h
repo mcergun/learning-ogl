@@ -1,5 +1,5 @@
-#ifndef _SHADER_H_
-#define _SHADER_H_
+#ifndef _OK_SHADER_H_
+#define _OK_SHADER_H_
 
 #include <glm/glm.hpp>
 
