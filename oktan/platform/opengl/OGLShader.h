@@ -1,6 +1,7 @@
 #ifndef _OK_OGL_SHADER_H_
 #define _OK_OGL_SHADER_H_
 
+#include <unordered_map>
 #include <oktan/renderer/Shader.h>
 
 namespace oktan
@@ -20,6 +21,10 @@ namespace oktan
         OGLShader() = default;
         bool IsCompileSuccessful(uint32_t shader);
         bool IsLinkSuccessful(uint32_t shader);
+        bool GetUniformCache(std::string name, int32_t &loc);
+        void AddToUniformCache(std::string name, int32_t &loc);
+
+        std::unordered_map<std::string, int32_t> m_UniformDict;
     };
 }
 

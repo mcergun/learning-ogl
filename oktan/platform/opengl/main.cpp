@@ -20,8 +20,20 @@ int main(int argc, char **argv)
 		PROJECT_VERSION_PATCH,
 		PROJECT_VERSION_TWEAK);
 
+	auto tex1 = oktan::Texture::Create("textures/container.jpg",
+		oktan::TextureType::Texture_2D,
+		oktan::ColorType::Color_RGB);
+	auto tex2 = oktan::Texture::Create("textures/awesomeface.png",
+		oktan::TextureType::Texture_2D,
+		oktan::ColorType::Color_RGBA);
+
+	tex1->Bind();
+	tex2->Bind();
+
     float vertices[] = {0.1f, 0.1f, 0.1f, 0.1f};
 	auto shader = oktan::Shader::Create("./shaders/simplevertex.glsl", "./shaders/simplefragment.glsl");
+	shader->SetUniform("texture1", true);
+	shader->SetUniform("texture1", false);
     auto vtx = oktan::VertexBuffer::Create(vertices, 4);
 	auto tex = oktan::Texture::Create("./textures/wall.jpg", oktan::TextureType::Texture_2D, oktan::ColorType::Color_RGB);
     vtx->Bind();
