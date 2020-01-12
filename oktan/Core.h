@@ -28,6 +28,12 @@ namespace oktan
         Vec3,
         Vec4,
     };
+
+    enum class BufferType
+    {
+        VertexBuffer,
+        IndexBuffer,
+    };
 }
 
 #endif
