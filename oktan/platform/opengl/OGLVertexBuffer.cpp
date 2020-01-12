@@ -9,6 +9,7 @@ namespace oktan
         glBindBuffer(GL_ARRAY_BUFFER, m_Id);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
         OK_LOG_TRACE("created vertex buffer {}", m_Id);
+        m_Type = BufferType::VertexBuffer;
     }
 
     OGLVertexBuffer::~OGLVertexBuffer()

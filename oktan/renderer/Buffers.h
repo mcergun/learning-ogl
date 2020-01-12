@@ -5,25 +5,37 @@
 
 namespace oktan
 {
-    class VertexBuffer
+    class Buffer
     {
     public:
-        virtual ~VertexBuffer() = default;
+        virtual ~Buffer() = default;
 
         virtual void Bind() const = 0;
         virtual void Unbind() const = 0;
+    
+    protected:
+        BufferType m_Type;
+    };
+    
+    class BufferGroup
+    {
+    public:
+        virtual ~BufferGroup() = default;
+        virtual void AddIndexBuffer(uint32_t *data, uint32_t size) = 0;
+        virtual void AddVertexBuffer(float *data, uint32_t size) = 0;
+    protected:
+        std::vector<Buffer *> m_Buffers;
+    };
 
+    class VertexBuffer : public Buffer
+    {
+    public:
         static VertexBuffer * Create(float *data, uint32_t size);
     };
 
-    class IndexBuffer
+    class IndexBuffer : public Buffer
     {
     public:
-        virtual ~IndexBuffer() = default;
-
-        virtual void Bind() const = 0;
-        virtual void Unbind() const = 0;
-
         static IndexBuffer * Create(uint32_t *data, uint32_t size);
     };
 }

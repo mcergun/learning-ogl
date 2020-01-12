@@ -3,6 +3,30 @@
 
 #include <vector>
 
+#include "Buffers.h"
+
+namespace oktan
+{
+    class Drawer
+    {
+    public:
+        virtual ~Drawer();
+        virtual void CreateGroup() = 0;
+        virtual void AddGroup() = 0;
+        virtual void BindGroup();
+
+        virtual void CreateVertexBuffer() = 0;
+        virtual void AddVertexBuffer(const VertexBuffer *vtx) = 0;
+        
+        virtual void CreateIndexBuffer() = 0;
+        virtual void AddIndexBuffer(const IndexBuffer *vtx) = 0;
+
+    protected:
+        std::vector<VertexBuffer *> m_VertexBuffers;
+        std::vector<IndexBuffer *> m_IndexBuffers;
+    };
+}
+
 enum DrawerPrimitiveTypes
 {
     DrawerType_Int = 0x1404,

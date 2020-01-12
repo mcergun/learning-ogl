@@ -8,6 +8,7 @@ namespace oktan
         glGenBuffers(1, &m_Id);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Id);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+        m_Type = BufferType::IndexBuffer;
     }
 
     OGLIndexBuffer::~OGLIndexBuffer()
