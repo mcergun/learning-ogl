@@ -2,6 +2,7 @@
 #define _OK_OGL_SHADER_H_
 
 #include <unordered_map>
+#include <oktan/Core.h>
 #include <oktan/renderer/Shader.h>
 
 namespace oktan

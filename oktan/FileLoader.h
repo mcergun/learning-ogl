@@ -4,7 +4,6 @@
 #include <string>
 
 #include "Core.h"
-#include "Logger.h"
 
 namespace oktan
 {

@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <memory>
 
+#include "Logger.h"
+
 #define OK_OGL_ENABLED 1
 
 namespace oktan

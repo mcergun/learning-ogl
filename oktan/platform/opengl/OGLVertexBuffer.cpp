@@ -1,5 +1,4 @@
 #include <glad/glad.h>
-#include <oktan/Logger.h>
 #include "OGLVertexBuffer.h"
 
 namespace oktan

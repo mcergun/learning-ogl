@@ -2,7 +2,6 @@
 #include <GLFW/glfw3.h>
 
 #include "GlfwWindow.h"
-#include <oktan/Logger.h>
 
 
 namespace oktan

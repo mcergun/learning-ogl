@@ -1,5 +1,5 @@
 #include <iostream>
-#include <oktan/Logger.h>
+#include <oktan/Core.h>
 #include <oktan/Version.h>
 #include <oktan/renderer/Buffers.h>
 #include <oktan/renderer/Window.h>

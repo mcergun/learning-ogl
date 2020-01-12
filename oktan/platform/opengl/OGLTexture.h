@@ -1,8 +1,8 @@
 #ifndef _OK_OGL_TEXTURE_H_
 #define _OK_OGL_TEXTURE_H_
 
+#include <oktan/Core.h>
 #include <oktan/renderer/Texture.h>
-#include <oktan/Logger.h>
 
 namespace oktan
 {
