@@ -14,4 +14,5 @@ add_library(oktan-renderer STATIC
             Shader.cpp
             Window.cpp
             Texture.cpp
+            VertexArray.cpp
 )

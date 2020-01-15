@@ -16,16 +16,6 @@ namespace oktan
     protected:
         BufferType m_Type;
     };
-    
-    class BufferGroup
-    {
-    public:
-        virtual ~BufferGroup() = default;
-        virtual void AddIndexBuffer(uint32_t *data, uint32_t size) = 0;
-        virtual void AddVertexBuffer(float *data, uint32_t size) = 0;
-    protected:
-        std::vector<Buffer *> m_Buffers;
-    };
 
     class VertexBuffer : public Buffer
     {

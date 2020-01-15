@@ -15,6 +15,7 @@ add_library(oktan-opengl STATIC
             OGLVertexBuffer.cpp
             OGLShader.cpp
             OGLTexture.cpp
+            OGLVertexArray.cpp
 )
 
 # target_link_libraries(oktan-opengl)

@@ -1,10 +1,10 @@
 #include <iostream>
 #include <oktan/Core.h>
 #include <oktan/Version.h>
-#include <oktan/renderer/Buffers.h>
 #include <oktan/renderer/Window.h>
 #include <oktan/renderer/Shader.h>
 #include <oktan/renderer/Texture.h>
+#include <oktan/renderer/VertexArray.h>
 
 int main(int argc, char **argv)
 {
@@ -36,7 +36,11 @@ int main(int argc, char **argv)
 	shader->SetUniform("texture1", false);
     auto vtx = oktan::VertexBuffer::Create(vertices, 4);
 	auto tex = oktan::Texture::Create("./textures/wall.jpg", oktan::TextureType::Texture_2D, oktan::ColorType::Color_RGB);
-    vtx->Bind();
+    // vtx->Bind();
+	auto vao = oktan::VertexArray::Create();
+	vao->AddVertexBuffer(vtx);
+	vao->AddIndexBuffer(nullptr, 0);
+	vao->Bind();
 	delete vtx;
     std::cout << "hello world!" << std::endl;
 }
