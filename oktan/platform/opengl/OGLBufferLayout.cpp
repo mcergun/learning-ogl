@@ -30,7 +30,6 @@ namespace oktan
     OGLBufferLayout::OGLBufferLayout(const std::initializer_list<BufferElement> &list) :
         BufferLayout(list)
     {
-        m_Elements = std::vector<BufferElement>(list);
         uint32_t totalSize = 0;
         for (auto &e : m_Elements)
         {
