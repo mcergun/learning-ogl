@@ -12,6 +12,10 @@ namespace oktan
 {
     enum class BaseType
     {
+        Byte,
+        UByte,
+        Short,
+        UShort,
         Float,
         Float2,
         Float3,

@@ -27,20 +27,57 @@ int main(int argc, char **argv)
 		oktan::TextureType::Texture_2D,
 		oktan::ColorType::Color_RGBA);
 
-	tex1->Bind();
-	tex2->Bind();
+    float vertices[] = {
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-    float vertices[] = {0.1f, 0.1f, 0.1f, 0.1f};
-	auto shader = oktan::Shader::Create("./shaders/simplevertex.glsl", "./shaders/simplefragment.glsl");
-	shader->SetUniform("texture1", true);
-	shader->SetUniform("texture1", false);
-    auto vtx = oktan::VertexBuffer::Create(vertices, 4);
-	auto tex = oktan::Texture::Create("./textures/wall.jpg", oktan::TextureType::Texture_2D, oktan::ColorType::Color_RGB);
-    // vtx->Bind();
-	auto vao = oktan::VertexArray::Create();
-	vao->AddVertexBuffer(vtx);
-	vao->AddIndexBuffer(nullptr, 0);
-	vao->Bind();
-	delete vtx;
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    };
+
+    auto vao = oktan::VertexArray::Create();
+    vao->AddVertexBuffer(vertices, sizeof(vertices) / sizeof(float));
+    bool Normalized;
+    auto blo = oktan::BufferLayout::Create({
+        {oktan::BaseType::Float, 3, false},
+        {oktan::BaseType::Float, 2, false}
+    });
+
     std::cout << "hello world!" << std::endl;
 }
