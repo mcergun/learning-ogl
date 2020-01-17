@@ -103,7 +103,7 @@ namespace oktan
 
     void OGLShader::Use()
     {
-
+        glUseProgram(m_Id);
     }
     
     void OGLShader::SetUniform(const std::string & name, bool value)
