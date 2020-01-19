@@ -5,6 +5,7 @@ include_directories(
     "../.."
     "../../.."
     "../../vendor/glad/include"
+    "../../vendor/glfw/include"
 )
 
 add_library(oktan-glfw STATIC GlfwWindow.cpp)

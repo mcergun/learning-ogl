@@ -6,6 +6,7 @@ include_directories(
     "../.."
     "../vendor/glm"
     "../vendor/glad/include"
+    "../vendor/glfw/include"
     "../vendor/stb"
 )
 

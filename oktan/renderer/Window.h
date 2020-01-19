@@ -12,6 +12,8 @@ namespace oktan
     public:
         virtual ~Window() = default;
         virtual int32_t Open() = 0;
+        virtual bool ShouldClose() = 0;
+        virtual void SwapBuffers() = 0;
 
         static Window * Create(uint32_t wid, uint32_t hei, std::string title);
 
