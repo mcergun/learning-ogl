@@ -6,78 +6,49 @@
 #include <oktan/renderer/Texture.h>
 #include <oktan/renderer/VertexArray.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 int main(int argc, char **argv)
 {
 	oktan::Logger::Initialize(oktan::LoggerLevel::Trace, oktan::LoggerLevel::Trace);
-    // drawer.AddVertexAttribute(0, DrawerType_Float, 3, false, 5 * sizeof(float), 0);
-	// drawer.AddVertexAttribute(1, DrawerType_Float, 2, false, 5 * sizeof(float), 3 * sizeof(float));
     auto win = oktan::Window::Create(600, 480, "Title");
 	win->Open();
 
-	OK_LOG_INFO("Oktan Started: v{}.{}.{}.{}",
-		PROJECT_VERSION_MAJOR,
-		PROJECT_VERSION_MINOR,
-		PROJECT_VERSION_PATCH,
-		PROJECT_VERSION_TWEAK);
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f,
+	};
 
-	auto tex1 = oktan::Texture::Create("textures/container.jpg",
-		oktan::TextureType::Texture_2D,
-		oktan::ColorType::Color_RGB);
-	auto tex2 = oktan::Texture::Create("textures/awesomeface.png",
-		oktan::TextureType::Texture_2D,
-		oktan::ColorType::Color_RGBA);
+	auto vao = oktan::VertexArray::Create();
+	vao->AddVertexBuffer(vertices, sizeof(vertices));
+	auto blo = oktan::BufferLayout::Create({
+		{oktan::BaseType::Float, 3, false}
+	});
 
-    float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	auto shader = oktan::Shader::Create("shaders/1.4vtx.glsl", "shaders/1.4frg.glsl");
 
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	while (!win->ShouldClose())
+	{
+		// render
+		// ------
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		shader->Use();
+		vao->Bind();
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		// glBindVertexArray(0); // no need to unbind it every time 
 
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-
-    auto vao = oktan::VertexArray::Create();
-    vao->AddVertexBuffer(vertices, sizeof(vertices) / sizeof(float));
-    bool Normalized;
-    auto blo = oktan::BufferLayout::Create({
-        {oktan::BaseType::Float, 3, false},
-        {oktan::BaseType::Float, 2, false}
-    });
+		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+		// -------------------------------------------------------------------------------
+		win->SwapBuffers();
+		//glfwPollEvents();
+	}
 
     std::cout << "hello world!" << std::endl;
 }
