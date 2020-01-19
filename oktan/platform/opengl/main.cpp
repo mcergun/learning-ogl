@@ -5,12 +5,10 @@
 #include <oktan/renderer/Shader.h>
 #include <oktan/renderer/Texture.h>
 #include <oktan/renderer/VertexArray.h>
+#include <oktan/renderer/Scene.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 int main(int argc, char **argv)
 {
@@ -31,21 +29,16 @@ int main(int argc, char **argv)
 	});
 
 	auto shader = oktan::Shader::Create("shaders/1.4vtx.glsl", "shaders/1.4frg.glsl");
+	auto scene = oktan::Scene::Create(oktan::DrawPrimitives::Triangles);
 
 	while (!win->ShouldClose())
 	{
-		// render
-		// ------
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		scene->ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		scene->ClearColorBuffer();
 
 		shader->Use();
 		vao->Bind();
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		// glBindVertexArray(0); // no need to unbind it every time 
-
-		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		// -------------------------------------------------------------------------------
+		scene->DrawArrays(0, 3);
 		win->SwapBuffers();
 		//glfwPollEvents();
 	}
