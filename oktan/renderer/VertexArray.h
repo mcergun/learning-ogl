@@ -17,8 +17,26 @@ namespace oktan
         virtual void AddIndexBuffer(uint32_t *data, uint32_t size) = 0;
         virtual void AddVertexBuffer(VertexBuffer *vbo) = 0;
         virtual void AddVertexBuffer(float *data, uint32_t size) = 0;
-        bool HasIndexBuffer() const;
-        bool HasVertexBuffer() const;
+
+        inline bool VertexArray::HasIndexBuffer() const
+        {
+            return m_Ebo != nullptr;
+        }
+
+        inline bool VertexArray::HasVertexBuffer() const
+        {
+            return m_Vbo != nullptr;
+        }
+
+        inline VertexBuffer* GetVertexBuffer() const
+        {
+            return m_Vbo;
+        }
+
+        inline IndexBuffer* GetIndexBuffer() const
+        {
+            return m_Ebo;
+        }
         // TODO: Add missing buffer layout functionality and create AddBufferLayout
 
         static VertexArray * Create();

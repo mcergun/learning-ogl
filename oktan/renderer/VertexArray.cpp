@@ -11,14 +11,4 @@ namespace oktan
         return nullptr;
 #endif
     }
-
-    bool VertexArray::HasIndexBuffer() const
-    {
-        return m_Ebo != nullptr;
-    }
-
-    bool VertexArray::HasVertexBuffer() const
-    {
-        return m_Vbo != nullptr;
-    }
 }
