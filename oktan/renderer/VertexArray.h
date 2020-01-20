@@ -18,12 +18,12 @@ namespace oktan
         virtual void AddVertexBuffer(VertexBuffer *vbo) = 0;
         virtual void AddVertexBuffer(float *data, uint32_t size) = 0;
 
-        inline bool VertexArray::HasIndexBuffer() const
+        inline bool HasIndexBuffer() const
         {
             return m_Ebo != nullptr;
         }
 
-        inline bool VertexArray::HasVertexBuffer() const
+        inline bool HasVertexBuffer() const
         {
             return m_Vbo != nullptr;
         }
