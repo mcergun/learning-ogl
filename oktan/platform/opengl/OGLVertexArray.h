@@ -15,6 +15,8 @@ namespace oktan
         virtual void AddIndexBuffer(uint32_t *data, uint32_t size) override;
         virtual void AddVertexBuffer(VertexBuffer *vbo) override;
         virtual void AddVertexBuffer(float *data, uint32_t size) override;
+        virtual void AddBufferLayout(BufferLayout* layout) override;
+        virtual void AddBufferLayout(std::initializer_list<BufferElement> list) override;
     };
 }
 

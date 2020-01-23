@@ -12,33 +12,61 @@
 
 int main(int argc, char **argv)
 {
-	oktan::Logger::Initialize(oktan::LoggerLevel::Trace, oktan::LoggerLevel::Trace);
-    auto win = oktan::Window::Create(600, 480, "Title");
+	using namespace oktan;
+
+	Logger::Initialize(oktan::LoggerLevel::Trace, oktan::LoggerLevel::Trace);
+    auto win = Window::Create(600, 480, "Title");
 	win->Open();
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f,
+		 0.5f,  0.5f, 0.0f,  // top right
+		 0.5f, -0.5f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f,  // bottom left
+		-0.5f,  0.5f, 0.0f   // top left 
 	};
 
-	auto vao = oktan::VertexArray::Create();
+	float vertices2[] = {
+	 0.4f,  0.4f, 0.0f,  // top right
+	 0.4f, -0.4f, 0.0f,  // bottom right
+	-0.4f, -0.4f, 0.0f,  // bottom left
+	-0.4f,  0.4f, 0.0f   // top left 
+	};
+
+	uint32_t indices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
+	};
+
+	auto vao = VertexArray::Create();
 	vao->AddVertexBuffer(vertices, sizeof(vertices));
-	auto blo = oktan::BufferLayout::Create({
-		{oktan::BaseType::Float, 3, false}
+	vao->AddIndexBuffer(indices, sizeof(indices));
+	vao->AddBufferLayout({
+		{BaseType::Float, 3, false}
 	});
 
-	auto shader = oktan::Shader::Create("shaders/1.4vtx.glsl", "shaders/1.4frg.glsl");
-	auto scene = oktan::Scene::Create(oktan::DrawPrimitives::Triangles);
+	auto vao2 = VertexArray::Create();
+	vao2->AddVertexBuffer(vertices2, sizeof(vertices2));
+	vao2->AddIndexBuffer(indices, sizeof(indices));
+	vao2->AddBufferLayout({
+		{BaseType::Float, 3, false}
+	});
 
+	auto shader = Shader::Create("shaders/1.4vtx.glsl", "shaders/1.4frg.glsl");
+	auto scene = Scene::Create(DrawPrimitives::Triangles);
+
+	uint16_t i = 0;
 	while (!win->ShouldClose())
 	{
 		scene->ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		scene->ClearColorBuffer();
 
 		shader->Use();
-		vao->Bind();
-		scene->DrawArrays(0, 3);
+		if ((i++ % 512) < 256)
+			vao2->Bind();
+		else
+			vao->Bind();
+		//scene->DrawArrays(0, 4);
+		scene->DrawElements(0, 6, 0);
 		win->SwapBuffers();
 		//glfwPollEvents();
 	}

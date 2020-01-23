@@ -17,6 +17,8 @@ namespace oktan
         virtual void AddIndexBuffer(uint32_t *data, uint32_t size) = 0;
         virtual void AddVertexBuffer(VertexBuffer *vbo) = 0;
         virtual void AddVertexBuffer(float *data, uint32_t size) = 0;
+        virtual void AddBufferLayout(BufferLayout *layout) = 0;
+        virtual void AddBufferLayout(std::initializer_list<BufferElement> list) = 0;
 
         inline bool VertexArray::HasIndexBuffer() const
         {
@@ -45,6 +47,7 @@ namespace oktan
     protected:
         VertexBuffer * m_Vbo = nullptr;
         IndexBuffer * m_Ebo = nullptr;
+        BufferLayout* m_Blo = nullptr;
     };
 }
 

@@ -50,5 +50,17 @@ namespace oktan
         m_Vbo = VertexBuffer::Create(data, size);
         m_Vbo->Bind();
     }
+
+    void OGLVertexArray::AddBufferLayout(BufferLayout* layout)
+    {
+        OK_LOG_INFO("Created a buffer layout for vertex array");
+        m_Blo = layout;
+    }
+
+    void OGLVertexArray::AddBufferLayout(std::initializer_list<BufferElement> list)
+    {
+        OK_LOG_INFO("Created a buffer layout for vertex array");
+        m_Blo = BufferLayout::Create(list);
+    }
     
 }
