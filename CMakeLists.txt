@@ -27,7 +27,7 @@ include_directories(
     "./oktan/vendor/glm"
 )
 
-add_executable(oktan-app oktan/platform/opengl/main.cpp)
+add_executable(oktan-app main.cpp)
 
 set(LINK_LIBS "oktan-generic oktan-platform oktan-vendor")
 
