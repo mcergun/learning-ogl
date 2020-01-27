@@ -17,31 +17,43 @@ int main(int argc, char **argv)
 	win->Open();
 
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,    1.0f, 0.0f, 0.0f,
-		 0.5f, -0.5f, 0.0f,    0.0f, 1.0f, 0.0f,
-		 0.0f,  0.5f, 0.0f,    0.0f, 0.0f, 1.0f,
+		// positions          // colors           // texture coords
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
+	};
+
+	uint32_t indices[] = {
+		0, 1, 3, // first triangle
+		1, 2, 3  // second triangle
 	};
 
 	auto vao = oktan::VertexArray::Create();
 	vao->AddVertexBuffer(vertices, sizeof(vertices));
+	vao->AddIndexBuffer(indices, sizeof(indices));
 	auto blo = oktan::BufferLayout::Create({
 		{oktan::BaseType::Float, 3, false},
-		{oktan::BaseType::Float, 3, false}
+		{oktan::BaseType::Float, 3, false},
+		{oktan::BaseType::Float, 2, false},
 	});
 
-	auto shader = oktan::Shader::Create("shaders/1.4vtx.glsl", "shaders/1.4frg.glsl");
+	auto shader = oktan::Shader::Create("../shaders/1.6vtx.glsl", "../shaders/1.6frg.glsl");
 	auto scene = oktan::Scene::Create(oktan::DrawPrimitives::Triangles);
+	uint32_t slot = 0;
+	auto tex1 = oktan::Texture::Create("../textures/wall.jpg", oktan::TextureType::Texture_2D, oktan::ColorType::Color_RGB, slot);
 
 	int i = 0;
 	while (!win->ShouldClose())
 	{
 		scene->ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		scene->ClearColorBuffer();
-		float val = sin(i++ / 48.0f) / 2;
+		float val = sin(i++ / 365.0f) / 2;
 		shader->SetUniform("xOffset", val);
+		shader->SetUniform("tex1", slot);
 		shader->Use();
 		vao->Bind();
-		scene->DrawArrays(0, 3);
+		scene->DrawElements(0, 6, 0);
 		win->SwapBuffers();
 		//glfwPollEvents();
 	}
