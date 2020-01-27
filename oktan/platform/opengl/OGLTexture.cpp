@@ -8,7 +8,7 @@ namespace oktan
     static GLenum ConvertToGL(ColorType color);
     static GLenum ConvertToGL(TextureType tex);
 
-    OGLTexture::OGLTexture(std::string path, TextureType type, ColorType color)
+    OGLTexture::OGLTexture(std::string path, TextureType type, ColorType color, uint32_t slot)
     {
         m_Type = type;
         m_Color = color;
@@ -20,7 +20,7 @@ namespace oktan
             OK_LOG_TRACE("Created Texture {}, {} dimensions: {} x {}", m_Id, path, m_Width, m_Height);
             GLenum texEnum = ConvertToGL(m_Type);
             GLenum colEnum = ConvertToGL(m_Color);
-            glBindTexture(texEnum, m_Id);
+            Assign(slot);
             glTexParameteri(texEnum, GL_TEXTURE_WRAP_S, GL_REPEAT);	
             glTexParameteri(texEnum, GL_TEXTURE_WRAP_T, GL_REPEAT);
             glTexParameteri(texEnum, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -41,9 +41,10 @@ namespace oktan
         glBindTexture(texEnum, m_Id);
     }
 
-    void OGLTexture::Activate()
+    void OGLTexture::Assign(uint32_t slot)
     {
-        glActiveTexture(GL_TEXTURE0 + m_Id);
+        glActiveTexture(GL_TEXTURE0 + slot);
+        Bind();
     }
 
     GLenum ConvertToGL(ColorType color)

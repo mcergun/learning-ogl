@@ -7,10 +7,10 @@
 
 namespace oktan
 {
-    Texture * Texture::Create(std::string path, TextureType type, ColorType color)
+    Texture * Texture::Create(std::string path, TextureType type, ColorType color, uint32_t slot)
     {
 #if OK_OGL_ENABLED == 1
-        return new OGLTexture(path, type, color);
+        return new OGLTexture(path, type, color, slot);
 #else
         return nullptr;
 #endif

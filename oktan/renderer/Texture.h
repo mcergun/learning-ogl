@@ -21,10 +21,10 @@ namespace oktan
     class Texture
     {
     public:
-        static Texture * Create(std::string path, TextureType type, ColorType color);
+        static Texture * Create(std::string path, TextureType type, ColorType color, uint32_t slot);
 
         virtual void Bind() = 0;
-        virtual void Activate() = 0;
+        virtual void Assign(uint32_t slot) = 0;
 
     protected:
         uint32_t m_Id = 0;

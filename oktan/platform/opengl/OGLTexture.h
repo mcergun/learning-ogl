@@ -9,9 +9,9 @@ namespace oktan
     class OGLTexture : public Texture
     {
     public:
-        OGLTexture(std::string path, TextureType type, ColorType color);
+        OGLTexture(std::string path, TextureType type, ColorType color, uint32_t slot);
         void Bind() override;
-        void Activate() override;
+        void Assign(uint32_t slot) override;
     };
 }
 
