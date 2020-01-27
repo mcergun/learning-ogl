@@ -20,12 +20,12 @@ namespace oktan
         virtual void AddBufferLayout(BufferLayout *layout) = 0;
         virtual void AddBufferLayout(std::initializer_list<BufferElement> list) = 0;
 
-        inline bool VertexArray::HasIndexBuffer() const
+        inline bool HasIndexBuffer() const
         {
             return m_Ebo != nullptr;
         }
 
-        inline bool VertexArray::HasVertexBuffer() const
+        inline bool HasVertexBuffer() const
         {
             return m_Vbo != nullptr;
         }
