@@ -39,11 +39,13 @@ namespace oktan
     {
         GLenum texEnum = ConvertToGL(m_Type);
         glBindTexture(texEnum, m_Id);
+        OK_LOG_TRACE("Bound texture: {}", m_Id);
     }
 
     void OGLTexture::Assign(uint32_t slot)
     {
         glActiveTexture(GL_TEXTURE0 + slot);
+        OK_LOG_TRACE("Assigned texture: {} to GL_TEXTURE{}", m_Id, slot);
         Bind();
     }
 
