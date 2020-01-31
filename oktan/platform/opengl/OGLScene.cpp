@@ -22,6 +22,7 @@ namespace oktan
 	OGLScene::OGLScene(DrawPrimitives primitive) :
 		Scene(primitive)
 	{
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void OGLScene::DrawArrays(uint32_t start, uint32_t count) const
@@ -41,6 +42,6 @@ namespace oktan
 
 	void OGLScene::ClearColorBuffer() const
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 }

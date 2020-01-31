@@ -18,23 +18,65 @@ int main(int argc, char **argv)
 	win->Open();
 
 	float vertices[] = {
-		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
-	uint32_t indices[] = {
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
+	glm::vec3 cubePositions[] = {
+		glm::vec3( 0.0f,  0.0f,  0.0f),
+		glm::vec3( 2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3( 2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3( 1.3f, -2.0f, -2.5f),
+		glm::vec3( 1.5f,  2.0f, -2.5f),
+		glm::vec3( 1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
 	auto vao = oktan::VertexArray::Create();
 	vao->AddVertexBuffer(vertices, sizeof(vertices));
-	vao->AddIndexBuffer(indices, sizeof(indices));
 	auto blo = oktan::BufferLayout::Create({
-		{oktan::BaseType::Float, 3, false},
 		{oktan::BaseType::Float, 3, false},
 		{oktan::BaseType::Float, 2, false},
 	});
@@ -57,16 +99,27 @@ int main(int argc, char **argv)
 	{
 		scene->ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		scene->ClearColorBuffer();
-		float val = sin(i++ / 72.0f) / 2;
-		model = glm::rotate(model, glm::radians(val * 15), glm::vec3(0.5f, 1.0f, 0.0f));
+		float val = sin(i++ / 48.0f) * 24;
+		// model = glm::rotate(model, glm::radians(val * 15), glm::vec3(0.5f, 1.0f, 0.5f));
 		shader->SetUniform("tex1", slot1);
 		shader->SetUniform("tex2", slot2);
-		shader->SetUniform("model", model);
+		// shader->SetUniform("model", model);
 		shader->SetUniform("view", view);
 		shader->SetUniform("projection", projection);
+		for (uint32_t j = 0; j < sizeof(cubePositions) / sizeof(cubePositions[0]); j++)
+		{
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePositions[j]);
+			model = glm::rotate(model, glm::radians((j + 1) * val), glm::vec3(0.5f, 1.0f, 0.5f));
+			shader->SetUniform("model", model);
+			shader->SetUniform("view", view);
+			shader->SetUniform("projection", projection);
+			scene->DrawArrays(0, 36);
+		}
+		
+		shader->SetUniform("model", model);
 		shader->Use();
 		vao->Bind();
-		scene->DrawElements(0, 6, 0);
 		win->SwapBuffers();
 		//glfwPollEvents();
 	}
