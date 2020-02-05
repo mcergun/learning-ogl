@@ -1,7 +1,7 @@
 #include <glad/glad.h>
 
 #include "GlfwWindow.h"
-
+#include "GlfwInputHandler.h"
 
 namespace oktan
 {
@@ -38,6 +38,7 @@ namespace oktan
             else
             {
                 OK_LOG_TRACE("Loaded GLAD");
+                static GlfwInputHandler input(m_Win);
                 ret = 0;
             }
         }
@@ -60,6 +61,7 @@ namespace oktan
     void GlfwWindowImpl::SwapBuffers()
     {
         glfwSwapBuffers(m_Win);
+        glfwPollEvents();
     }
 
 }

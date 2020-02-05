@@ -8,6 +8,6 @@ include_directories(
     "../../vendor/glfw/include"
 )
 
-add_library(oktan-glfw STATIC GlfwWindow.cpp)
+add_library(oktan-glfw STATIC GlfwWindow.cpp GlfwInputHandler.cpp)
 
 target_link_libraries(oktan-glfw glfw)
