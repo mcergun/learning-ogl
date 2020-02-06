@@ -1,5 +1,4 @@
 #include <iostream>
-#include <chrono>
 #include <oktan/Core.h>
 #include <oktan/Version.h>
 #include <oktan/renderer/Window.h>
@@ -14,24 +13,6 @@
 
 const glm::vec3 up(0.0f, 1.0f, 0.0f);
 const glm::vec3 center(0.0f, 0.0f, 0.0f);
-
-const float FRAMES_PER_SEC = 60.0f;
-const float FRAME_TIME = 1000.0f / FRAMES_PER_SEC;
-
-static std::chrono::steady_clock::time_point LastDrawTime;
-
-bool IsDrawTime()
-{
-	using namespace std::chrono;
-	bool ret = false;
-	auto now = steady_clock::now();
-	if (duration_cast<milliseconds>(now - LastDrawTime).count() > FRAME_TIME)
-	{
-		ret = true;
-		LastDrawTime = now;
-	}
-	return ret;
-}
 
 int main(int argc, char **argv)
 {
@@ -122,39 +103,36 @@ int main(int argc, char **argv)
 	const float div2 = 512;
 	while (!win->ShouldClose())
 	{
-		if (IsDrawTime())
+		scene->ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		scene->ClearColorBuffer();
+		float val = sin(i++ / 24.0f) * 24;
+		// model = glm::rotate(model, glm::radians(val * 15), glm::vec3(0.5f, 1.0f, 0.5f));
+		shader->SetUniform("tex1", slot1);
+		shader->SetUniform("tex2", slot2);
+		// shader->SetUniform("model", model);
+		if (i % div == 0)
 		{
-			scene->ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			scene->ClearColorBuffer();
-			float val = sin(i++ / 24.0f) * 24;
-			// model = glm::rotate(model, glm::radians(val * 15), glm::vec3(0.5f, 1.0f, 0.5f));
-			shader->SetUniform("tex1", slot1);
-			shader->SetUniform("tex2", slot2);
-			// shader->SetUniform("model", model);
-			if (i % div == 0)
-			{
-				cameraPos = glm::vec3(sin((float)i / div / div2) * radius, 0.0f, cos((float)i / div / div2) * radius);
-				view = glm::lookAt(cameraPos, center, up);
-			}
+			cameraPos = glm::vec3(sin((float)i / div / div2) * radius, 0.0f, cos((float)i / div / div2) * radius);
+			view = glm::lookAt(cameraPos, center, up);
+		}
+		shader->SetUniform("view", view);
+		shader->SetUniform("projection", projection);
+		for (uint32_t j = 0; j < sizeof(cubePositions) / sizeof(cubePositions[0]); j++)
+		{
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePositions[j]);
+			model = glm::rotate(model, glm::radians((2 * j + 1) * val), glm::vec3(0.5f, 1.0f, 0.5f));
+			shader->SetUniform("model", model);
 			shader->SetUniform("view", view);
 			shader->SetUniform("projection", projection);
-			for (uint32_t j = 0; j < sizeof(cubePositions) / sizeof(cubePositions[0]); j++)
-			{
-				model = glm::mat4(1.0f);
-				model = glm::translate(model, cubePositions[j]);
-				model = glm::rotate(model, glm::radians((2 * j + 1) * val), glm::vec3(0.5f, 1.0f, 0.5f));
-				shader->SetUniform("model", model);
-				shader->SetUniform("view", view);
-				shader->SetUniform("projection", projection);
-				scene->DrawArrays(0, 36);
-			}
-
-			shader->SetUniform("model", model);
-			shader->Use();
-			vao->Bind();
-			win->SwapBuffers();
-			//glfwPollEvents();
+			scene->DrawArrays(0, 36);
 		}
+
+		shader->SetUniform("model", model);
+		shader->Use();
+		vao->Bind();
+		win->SwapBuffers();
+		//glfwPollEvents();
 	}
 
     std::cout << "hello world!" << std::endl;

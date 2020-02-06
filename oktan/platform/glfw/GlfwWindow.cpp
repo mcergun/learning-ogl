@@ -38,6 +38,7 @@ namespace oktan
             else
             {
                 OK_LOG_TRACE("Loaded GLAD");
+                glfwSwapInterval(1);
                 static GlfwInputHandler input(m_Win);
                 ret = 0;
             }

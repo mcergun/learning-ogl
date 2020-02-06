@@ -15,6 +15,7 @@ namespace oktan
         static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     private:
         GLFWwindow *m_Win;
+        void (*f_KeyEventCb)(int key, int scan, int action, int mods);
     };
 }
 
