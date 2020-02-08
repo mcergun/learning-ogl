@@ -15,9 +15,34 @@
 const glm::vec3 up(0.0f, 1.0f, 0.0f);
 const glm::vec3 center(0.0f, 0.0f, 0.0f);
 
+float radius = 8.0f;
+float angle = 0.0f;
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, radius);
+glm::mat4 view = glm::lookAt(cameraPos, center, up);
+
 void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
 {
+	using namespace oktan;
 	OK_APP_LOG_INFO("KEY {}", (char)kc);
+	switch (k)
+	{
+	case Keys::Up:
+		radius -= 0.2f;
+		break;
+	case Keys::Down:
+		radius += 0.2f;
+		break;
+	case Keys::Right:
+		angle += 2.0f;
+		break;
+	case Keys::Left:
+		angle -= 2.0f;
+		break;
+	default:
+		break;
+	}
+	cameraPos = glm::vec3(sin(glm::radians(angle)) * radius, 0.0f,
+		cos(glm::radians(angle)) * radius);
 }
 
 int main(int argc, char **argv)
@@ -102,9 +127,6 @@ int main(int argc, char **argv)
 	int i = 0;
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	float radius = 8.0f;
-	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, radius);
-	glm::mat4 view = glm::lookAt(cameraPos, center, up);
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 	const int div = 2;
@@ -118,18 +140,18 @@ int main(int argc, char **argv)
 		shader->SetUniform("tex1", slot1);
 		shader->SetUniform("tex2", slot2);
 		// shader->SetUniform("model", model);
-		if (i % div == 0)
-		{
-			cameraPos = glm::vec3(sin((float)i / div / div2) * radius, 0.0f, cos((float)i / div / div2) * radius);
-			view = glm::lookAt(cameraPos, center, up);
-		}
+		// if (i % div == 0)
+		// {
+		// 	cameraPos = glm::vec3(sin((float)i / div / div2) * radius, 0.0f, cos((float)i / div / div2) * radius);
+		// }
+		view = glm::lookAt(cameraPos, center, up);
 		shader->SetUniform("view", view);
 		shader->SetUniform("projection", projection);
 		for (uint32_t j = 0; j < sizeof(cubePositions) / sizeof(cubePositions[0]); j++)
 		{
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, cubePositions[j]);
-			model = glm::rotate(model, glm::radians((2 * j + 1) * val), glm::vec3(0.5f, 1.0f, 0.5f));
+			// model = glm::rotate(model, glm::radians((2 * j + 1) * val), glm::vec3(0.5f, 1.0f, 0.5f));
 			shader->SetUniform("model", model);
 			shader->SetUniform("view", view);
 			shader->SetUniform("projection", projection);
