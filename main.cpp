@@ -6,6 +6,7 @@
 #include <oktan/renderer/Texture.h>
 #include <oktan/renderer/VertexArray.h>
 #include <oktan/renderer/Scene.h>
+#include <oktan/renderer/InputHandler.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,11 +15,18 @@
 const glm::vec3 up(0.0f, 1.0f, 0.0f);
 const glm::vec3 center(0.0f, 0.0f, 0.0f);
 
+void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
+{
+	OK_APP_LOG_INFO("KEY {}", (char)kc);
+}
+
 int main(int argc, char **argv)
 {
 	oktan::Logger::Initialize(oktan::LoggerLevel::Info, oktan::LoggerLevel::Info);
     auto win = oktan::Window::Create(600, 480, "Title");
 	win->Open();
+	auto inp = oktan::InputHandler::Create(win);
+	inp->SetKeyCallback(KeyCb);
 
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,

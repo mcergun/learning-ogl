@@ -17,4 +17,5 @@ add_library(oktan-renderer STATIC
             Texture.cpp
             VertexArray.cpp
             Scene.cpp
+            InputHandler.cpp
 )

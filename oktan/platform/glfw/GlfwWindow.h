@@ -14,6 +14,7 @@ namespace oktan
         int32_t Open() override;
         bool ShouldClose() override;
         void SwapBuffers() override;
+        GLFWwindow * GetWindowPointer() const;
 
     private:
         // unsafe method for keeping window pointer

@@ -2,20 +2,23 @@
 
 namespace oktan
 {
-    GlfwInputHandler::GlfwInputHandler(GLFWwindow *win) :
-        m_Win(win)
+    GlfwInputHandler::GlfwInputHandler(GLFWwindow* win)
     {
-        glfwSetKeyCallback(m_Win, this->KeyCallback);
+        glfwSetWindowUserPointer(win, this);
+        glfwSetKeyCallback(win, KeyCallback);
     }
 
     GlfwInputHandler::~GlfwInputHandler()
     {
-        glfwSetKeyCallback(m_Win, nullptr);
+
     }
 
-    void GlfwInputHandler::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+    void GlfwInputHandler::KeyCallback(GLFWwindow* win, int key, int scancode, int action, int mods)
     {
-        if (action == GLFW_PRESS)
-            OK_LOG_INFO("Callback {}, {}, {}", (char)key, scancode, mods);
+        GlfwInputHandler *inp =
+            reinterpret_cast<GlfwInputHandler *>(glfwGetWindowUserPointer(win));
+        inp->f_KeyCb(GlfwToOktan::ConvertKeyCode(key), key, Modifiers::Alt,
+            Actions::KeyDown);
+        
     }
 }
