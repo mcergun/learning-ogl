@@ -20,29 +20,52 @@ float angle = 0.0f;
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, radius);
 glm::mat4 view = glm::lookAt(cameraPos, center, up);
 
+float inc1 = 0.15f;
+float inc2 = 1.5f;
 void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
 {
 	using namespace oktan;
-	OK_APP_LOG_INFO("KEY {}", (char)kc);
-	switch (k)
+	// OK_APP_LOG_INFO("KEY {}", (char)kc);
+	if (a == oktan::Actions::Continuous)
 	{
-	case Keys::Up:
-		radius -= 0.2f;
-		break;
-	case Keys::Down:
-		radius += 0.2f;
-		break;
-	case Keys::Right:
-		angle += 2.0f;
-		break;
-	case Keys::Left:
-		angle -= 2.0f;
-		break;
-	default:
-		break;
+		static int count = 0;
+		if (count++ > 64)
+		{
+			inc1 *= 1.2f;
+			inc2 *= 1.2f;
+			count = 0;
+			OK_APP_LOG_INFO("Getting faster {} {}", inc1, inc2);
+		}
 	}
-	cameraPos = glm::vec3(sin(glm::radians(angle)) * radius, 0.0f,
-		cos(glm::radians(angle)) * radius);
+	else
+	{
+		inc1 = 0.15f;
+		inc2 = 1.5f;
+		OK_APP_LOG_INFO("Reset {} {}", inc1, inc2);
+	}
+	
+	if (a == oktan::Actions::KeyDown || a == oktan::Actions::Continuous)
+	{
+		switch (k)
+		{
+		case Keys::Up:
+			radius -= inc1;
+			break;
+		case Keys::Down:
+			radius += inc1;
+			break;
+		case Keys::Right:
+			angle += inc2;
+			break;
+		case Keys::Left:
+			angle -= inc2;
+			break;
+		default:
+			break;
+		}
+		cameraPos = glm::vec3(sin(glm::radians(angle)) * radius, 0.0f,
+			cos(glm::radians(angle)) * radius);
+	}
 }
 
 int main(int argc, char **argv)

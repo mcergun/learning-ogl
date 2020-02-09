@@ -8,6 +8,7 @@ namespace oktan
 {
     enum class Modifiers
     {
+        NoModifier,
         Ctrl,
         Alt,
         Shift,
@@ -19,6 +20,7 @@ namespace oktan
 
     enum class Actions
     {
+        UnknownAction,
         KeyDown,
         KeyUp,
         Continuous,
@@ -26,6 +28,7 @@ namespace oktan
 
     enum class Keys
     {
+        UnknownKey,
         ASCII,
         Escape,
         Enter,
