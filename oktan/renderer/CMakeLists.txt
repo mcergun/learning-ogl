@@ -18,4 +18,5 @@ add_library(oktan-renderer STATIC
             VertexArray.cpp
             Scene.cpp
             InputHandler.cpp
+            Camera.cpp
 )
