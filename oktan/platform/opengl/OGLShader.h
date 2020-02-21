@@ -12,11 +12,11 @@ namespace oktan
     public:
         OGLShader(const std::string & vertexPath, const std::string & fragmentPath);
         void Use();
-        void SetUniform(const std::string & name, bool value);
-        void SetUniform(const std::string & name, int32_t value);
-        void SetUniform(const std::string & name, uint32_t value);
-        void SetUniform(const std::string & name, float value);
-        void SetUniform(const std::string & name, glm::mat4 & value);
+        void SetUniform(const std::string & name, const bool value);
+        void SetUniform(const std::string & name, const int32_t value);
+        void SetUniform(const std::string & name, const uint32_t value);
+        void SetUniform(const std::string & name, const float value);
+        void SetUniform(const std::string & name, const glm::mat4 & value);
 
     private:
         OGLShader() = default;

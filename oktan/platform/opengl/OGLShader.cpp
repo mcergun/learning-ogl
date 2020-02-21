@@ -106,7 +106,7 @@ namespace oktan
         glUseProgram(m_Id);
     }
     
-    void OGLShader::SetUniform(const std::string & name, bool value)
+    void OGLShader::SetUniform(const std::string & name, const bool value)
     {
         int32_t loc = -1;
         if (!GetUniformCache(name, loc))
@@ -124,7 +124,7 @@ namespace oktan
         }
     }
     
-    void OGLShader::SetUniform(const std::string & name, int32_t value)
+    void OGLShader::SetUniform(const std::string & name, const int32_t value)
     {
         int32_t loc = -1;
         if (!GetUniformCache(name, loc))
@@ -142,7 +142,7 @@ namespace oktan
         }
     }
     
-    void OGLShader::SetUniform(const std::string & name, uint32_t value)
+    void OGLShader::SetUniform(const std::string & name, const uint32_t value)
     {
         int32_t loc = -1;
         if (!GetUniformCache(name, loc))
@@ -160,7 +160,7 @@ namespace oktan
         }
     }
     
-    void OGLShader::SetUniform(const std::string & name, float value)
+    void OGLShader::SetUniform(const std::string & name, const float value)
     {
         int32_t loc = -1;
         if (!GetUniformCache(name, loc))
@@ -178,7 +178,7 @@ namespace oktan
         }
     }
     
-    void OGLShader::SetUniform(const std::string & name, glm::mat4 & value)
+    void OGLShader::SetUniform(const std::string & name, const glm::mat4 & value)
     {
         int32_t loc = -1;
         if (!GetUniformCache(name, loc))

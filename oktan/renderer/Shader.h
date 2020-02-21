@@ -17,11 +17,11 @@ namespace oktan
     public:
         virtual ~Shader() = default;
         virtual void Use() = 0;
-        virtual void SetUniform(const std::string & name, bool value) = 0;
-        virtual void SetUniform(const std::string & name, int32_t value) = 0;
-        virtual void SetUniform(const std::string & name, uint32_t value) = 0;
-        virtual void SetUniform(const std::string & name, float value) = 0;
-        virtual void SetUniform(const std::string & name, glm::mat4 & value) = 0;
+        virtual void SetUniform(const std::string & name, const bool value) = 0;
+        virtual void SetUniform(const std::string & name, const int32_t value) = 0;
+        virtual void SetUniform(const std::string & name, const uint32_t value) = 0;
+        virtual void SetUniform(const std::string & name, const float value) = 0;
+        virtual void SetUniform(const std::string & name, const glm::mat4 & value) = 0;
         static Shader * Create(const std::string & vertexPath, const std::string & fragmentPath);
 
     protected:
