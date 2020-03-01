@@ -13,14 +13,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-float radius = 8.0f;
-float angle = 0.0f;
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, radius);
-oktan::PerspectiveCamera camera(80.0f, 640.0f, 480.0f, 0.1f, 100.0f);
+float left = 8.0f;
+float up = 0.0f;
+oktan::OrthographicCamera camera(80.0f, 640.0f, 480.0f, 0.1f, 100.0f);
 
 
 float inc1 = 0.15f;
-float inc2 = 1.5f;
 void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
 {
 	using namespace oktan;
@@ -31,47 +29,45 @@ void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
 		if (count++ > 64)
 		{
 			inc1 *= 1.2f;
-			inc2 *= 1.2f;
 			count = 0;
-			OK_APP_LOG_INFO("Getting faster {} {}", inc1, inc2);
+			OK_APP_LOG_INFO("Getting faster {}", inc1);
 		}
 	}
 	else
 	{
 		inc1 = 0.15f;
-		inc2 = 1.5f;
-		OK_APP_LOG_INFO("Reset {} {}", inc1, inc2);
+		OK_APP_LOG_INFO("Reset {}", inc1);
 	}
 	
 	if (a == oktan::Actions::KeyDown || a == oktan::Actions::Continuous)
 	{
+		up = 0.0f;
+		left = 0.0f;
 		switch (k)
 		{
 		case Keys::Up:
-			radius -= inc1;
+			up = inc1;
 			break;
 		case Keys::Down:
-			radius += inc1;
+			up = -inc1;
 			break;
 		case Keys::Right:
-			angle += inc2;
+			left = inc1;
 			break;
 		case Keys::Left:
-			angle -= inc2;
+			left = -inc1;
 			break;
-		case Keys::Tab:
-		{
-			auto tar = camera.GetTarget();
-			tar += glm::vec3{0.0f, 0.2f, 0.0f};
-			camera.SetTarget(tar);
-			break;
-		}
 		default:
 			break;
 		}
-		cameraPos = glm::vec3(sin(glm::radians(angle)) * radius, 0.0f,
-			cos(glm::radians(angle)) * radius);
-		camera.SetPosition(cameraPos);
+		// cameraPos = glm::vec3(sin(glm::radians(angle)) * radius, 0.0f,
+		// 	cos(glm::radians(angle)) * radius);
+		auto tar = camera.GetTarget();
+		auto pos = camera.GetPosition();
+		pos += glm::vec3(left, up, 0.0);
+		tar += glm::vec3(left, up, 0.0);
+		camera.SetPosition(pos);
+		camera.SetTarget(tar);
 	}
 }
 
@@ -159,6 +155,8 @@ int main(int argc, char **argv)
 	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	const int div = 2;
 	const float div2 = 512;
+	auto initPos = glm::vec3(0.0f, 0.0f, 50.0f);
+	camera.SetPosition(initPos);
 	while (!win->ShouldClose())
 	{
 		scene->ClearColor(0.2f, 0.3f, 0.3f, 1.0f);

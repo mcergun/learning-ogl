@@ -34,20 +34,30 @@ namespace oktan
 		m_ViewProjection = m_Projection * m_View;
 	}
 
-	OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top)
-		: m_Projection(glm::ortho(left, right, bottom, top))
+	OrthographicCamera::OrthographicCamera(float fov, float left, float right, float bottom, float top)
 	{
+		float distance = 4.0;
+		float scale = glm::tan(fov / 2) * distance;
+		m_Projection = glm::ortho(-scale, scale, -scale, scale, 0.1f, 100.0f);
 		m_ViewProjection = m_Projection * m_View;
 	}
-	void OrthographicCamera::SetProjection(float left, float right, float bottom, float top)
+	void OrthographicCamera::SetProjection(float fov, float left, float right, float bottom, float top)
 	{
-		m_Projection = glm::ortho(left, right, bottom, top);
+		float distance = 4.0;
+		float scale = glm::tan(fov / 2) * distance;
+		m_Projection = glm::ortho(-scale, scale, -scale, scale, 0.1f, 100.0f);
 		m_ViewProjection = m_Projection * m_View;
 	}
 
 	void OrthographicCamera::SetPosition(glm::vec3& pos)
 	{
 		m_Position = pos;
+		RecalculateView();
+	}
+
+	void OrthographicCamera::SetTarget(glm::vec3 &target)
+	{
+		m_Target = target;
 		RecalculateView();
 	}
 
@@ -63,7 +73,7 @@ namespace oktan
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0, 0, 1));
 
-		m_View = glm::inverse(transform);
+		m_View = glm::lookAt(m_Position, m_Target, UPVEC);
 		m_ViewProjection = m_Projection * m_View;
 	}
 
