@@ -17,7 +17,6 @@ float left = 8.0f;
 float up = 0.0f;
 oktan::OrthographicCamera camera(80.0f, 640.0f, 480.0f, 0.1f, 100.0f);
 
-
 float inc1 = 0.15f;
 void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
 {
@@ -79,48 +78,48 @@ int main(int argc, char **argv)
 	auto inp = oktan::InputHandler::Create(win);
 	inp->SetKeyCallback(KeyCb);
 
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	oktan::VertexData newVertices[] = {
+		{ -0.5f, -0.5f, -0.5f,  0.0f, 0.0f},
+		{ 0.5f, -0.5f, -0.5f,  1.0f, 0.0f},
+		{ 0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
+		{ 0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
+		{ -0.5f,  0.5f, -0.5f,  0.0f, 1.0f},
+		{ -0.5f, -0.5f, -0.5f,  0.0f, 0.0f},
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		{-0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
+		{0.5f, -0.5f,  0.5f,  1.0f, 0.0f},
+		{0.5f,  0.5f,  0.5f,  1.0f, 1.0f},
+		{0.5f,  0.5f,  0.5f,  1.0f, 1.0f},
+		{-0.5f,  0.5f,  0.5f,  0.0f, 1.0f},
+		{-0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
 
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		{-0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
+		{-0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
+		{-0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
+		{-0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
+		{-0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
+		{-0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
 
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		{0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
+		{0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
+		{0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
+		{0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
+		{0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
+		{0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		{-0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
+		{0.5f, -0.5f, -0.5f,  1.0f, 1.0f},
+		{0.5f, -0.5f,  0.5f,  1.0f, 0.0f},
+		{0.5f, -0.5f,  0.5f,  1.0f, 0.0f},
+		{-0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
+		{-0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
 
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+		{-0.5f,  0.5f, -0.5f,  0.0f, 1.0f},
+		{0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
+		{0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
+		{0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
+		{-0.5f,  0.5f,  0.5f,  0.0f, 0.0f},
+		{-0.5f,  0.5f, -0.5f,  0.0f, 1.0f},
 	};
 
 	glm::vec3 cubePositions[] = {
@@ -138,7 +137,7 @@ int main(int argc, char **argv)
 
 
 	auto vao = oktan::VertexArray::Create();
-	vao->AddVertexBuffer(vertices, sizeof(vertices));
+	vao->AddVertexBuffer(reinterpret_cast<float *>(newVertices), sizeof(newVertices));
 	auto blo = oktan::BufferLayout::Create({
 		{oktan::BaseType::Float, 3, false},
 		{oktan::BaseType::Float, 2, false},

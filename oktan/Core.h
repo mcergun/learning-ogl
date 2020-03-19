@@ -38,6 +38,24 @@ namespace oktan
         VertexBuffer,
         IndexBuffer,
     };
+
+    // Struct that holds generic vertex data:
+    //  - Vertex Coordinates (X, Y, Z)
+    //  - Texture Coordinates (X, Y)
+    struct VertexData
+    {
+    public:
+        VertexData(float posx, float posy, float posz, float texposx, float texposy) :
+            PosX(posx), PosY(posy), PosZ(posz), TexPosX(texposx), TexPosY(texposy) {}
+        float PosX = 0.0f;
+        float PosY = 0.0f;
+        float PosZ = 0.0f;
+        float TexPosX = 0.0f;
+        float TexPosY = 0.0f;
+    private:
+        // Hide default constructor, we don't need it
+        VertexData() = default;
+    };
 }
 
 #endif
