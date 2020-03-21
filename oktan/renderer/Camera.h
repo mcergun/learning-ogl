@@ -2,6 +2,7 @@
 #define _OK_CAMERA_H_
 
 #include <glm/glm.hpp>
+#include <oktan/Core.h>
 
 namespace oktan
 {

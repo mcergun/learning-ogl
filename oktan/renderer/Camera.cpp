@@ -36,17 +36,20 @@ namespace oktan
 
 	OrthographicCamera::OrthographicCamera(float fov, float left, float right, float bottom, float top)
 	{
-		float distance = 4.0;
-		float scale = glm::tan(fov / 2) * distance;
-		m_Projection = glm::ortho(-scale, scale, -scale, scale, 0.1f, 100.0f);
+		float distance = 4.0f;
+		float scale = glm::abs(glm::tan(fov / 2) * distance);
+		m_Projection = glm::ortho(-scale, scale, -scale, scale, bottom, top);
 		m_ViewProjection = m_Projection * m_View;
+		OK_LOG_INFO("Created orthographic camera with scale : {}", scale);
 	}
+
 	void OrthographicCamera::SetProjection(float fov, float left, float right, float bottom, float top)
 	{
-		float distance = 4.0;
-		float scale = glm::tan(fov / 2) * distance;
-		m_Projection = glm::ortho(-scale, scale, -scale, scale, 0.1f, 100.0f);
+		float distance = 4.0f;
+		float scale = glm::abs(glm::tan(fov / 2) * distance);
+		m_Projection = glm::ortho(-scale, scale, -scale, scale, bottom, top);
 		m_ViewProjection = m_Projection * m_View;
+		OK_LOG_INFO("Set orthographic camera's scale : {}", scale);
 	}
 
 	void OrthographicCamera::SetPosition(glm::vec3& pos)

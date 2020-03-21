@@ -15,9 +15,12 @@
 
 float left = 8.0f;
 float up = 0.0f;
-oktan::OrthographicCamera camera(80.0f, 640.0f, 480.0f, 0.1f, 100.0f);
+const uint32_t WIN_WID = 960;
+const uint32_t WIN_HEI = 720;
+const float MV_RATE = 0.025f;
+oktan::OrthographicCamera *camera = nullptr;
 
-float inc1 = 0.15f;
+float inc1 = MV_RATE;
 void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
 {
 	using namespace oktan;
@@ -34,7 +37,7 @@ void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
 	}
 	else
 	{
-		inc1 = 0.15f;
+		inc1 = MV_RATE;
 		OK_APP_LOG_INFO("Reset {}", inc1);
 	}
 	
@@ -45,82 +48,41 @@ void KeyCb(oktan::Keys k, int kc, oktan::Modifiers m, oktan::Actions a)
 		switch (k)
 		{
 		case Keys::Up:
-			up = inc1;
-			break;
-		case Keys::Down:
 			up = -inc1;
 			break;
+		case Keys::Down:
+			up = inc1;
+			break;
 		case Keys::Right:
-			left = inc1;
+			left = -inc1;
 			break;
 		case Keys::Left:
-			left = -inc1;
+			left = inc1;
 			break;
 		default:
 			break;
 		}
 		// cameraPos = glm::vec3(sin(glm::radians(angle)) * radius, 0.0f,
 		// 	cos(glm::radians(angle)) * radius);
-		auto tar = camera.GetTarget();
-		auto pos = camera.GetPosition();
+		auto tar = camera->GetTarget();
+		auto pos = camera->GetPosition();
 		pos += glm::vec3(left, up, 0.0);
 		tar += glm::vec3(left, up, 0.0);
-		camera.SetPosition(pos);
-		camera.SetTarget(tar);
+		camera->SetPosition(pos);
+		camera->SetTarget(tar);
 	}
 }
 
 int main(int argc, char **argv)
 {
 	oktan::Logger::Initialize(oktan::LoggerLevel::Info, oktan::LoggerLevel::Info);
-    auto win = oktan::Window::Create(600, 480, "Title");
+	camera = new oktan::OrthographicCamera(70.0f, WIN_WID, WIN_HEI, 0.20f, 160.0f);
+    auto win = oktan::Window::Create(WIN_WID, WIN_HEI, "Title");
 	win->Open();
 	auto inp = oktan::InputHandler::Create(win);
 	inp->SetKeyCallback(KeyCb);
-
-	oktan::VertexData newVertices[] = {
-		{ -0.5f, -0.5f, -0.5f,  0.0f, 0.0f},
-		{ 0.5f, -0.5f, -0.5f,  1.0f, 0.0f},
-		{ 0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
-		{ 0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
-		{ -0.5f,  0.5f, -0.5f,  0.0f, 1.0f},
-		{ -0.5f, -0.5f, -0.5f,  0.0f, 0.0f},
-
-		{-0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
-		{0.5f, -0.5f,  0.5f,  1.0f, 0.0f},
-		{0.5f,  0.5f,  0.5f,  1.0f, 1.0f},
-		{0.5f,  0.5f,  0.5f,  1.0f, 1.0f},
-		{-0.5f,  0.5f,  0.5f,  0.0f, 1.0f},
-		{-0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
-
-		{-0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
-		{-0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
-		{-0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
-		{-0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
-		{-0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
-		{-0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
-
-		{0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
-		{0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
-		{0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
-		{0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
-		{0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
-		{0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
-
-		{-0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
-		{0.5f, -0.5f, -0.5f,  1.0f, 1.0f},
-		{0.5f, -0.5f,  0.5f,  1.0f, 0.0f},
-		{0.5f, -0.5f,  0.5f,  1.0f, 0.0f},
-		{-0.5f, -0.5f,  0.5f,  0.0f, 0.0f},
-		{-0.5f, -0.5f, -0.5f,  0.0f, 1.0f},
-
-		{-0.5f,  0.5f, -0.5f,  0.0f, 1.0f},
-		{0.5f,  0.5f, -0.5f,  1.0f, 1.0f},
-		{0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
-		{0.5f,  0.5f,  0.5f,  1.0f, 0.0f},
-		{-0.5f,  0.5f,  0.5f,  0.0f, 0.0f},
-		{-0.5f,  0.5f, -0.5f,  0.0f, 1.0f},
-	};
+	oktan::QuadData quad(-0.5f, -0.5f, 0.5f, 0.5f);
+	uint32_t indices[] = {0, 1, 2, 2, 3, 0};
 
 	glm::vec3 cubePositions[] = {
 		glm::vec3( 0.0f,  0.0f,  0.0f),
@@ -137,49 +99,47 @@ int main(int argc, char **argv)
 
 
 	auto vao = oktan::VertexArray::Create();
-	vao->AddVertexBuffer(reinterpret_cast<float *>(newVertices), sizeof(newVertices));
+	// vao->AddVertexBuffer(reinterpret_cast<float *>(newVertices), sizeof(newVertices));
+	vao->AddVertexBuffer(reinterpret_cast<float *>(&quad), sizeof(quad));
+	vao->AddIndexBuffer(indices, sizeof(indices));
 	auto blo = oktan::BufferLayout::Create({
 		{oktan::BaseType::Float, 3, false},
 		{oktan::BaseType::Float, 2, false},
 	});
 
-	auto shader = oktan::Shader::Create("../shaders/1.8vtx.glsl", "../shaders/1.8frg.glsl");
+	auto shader = oktan::Shader::Create("../shaders/simplevertex.glsl", "../shaders/simplefragment.glsl");
 	auto scene = oktan::Scene::Create(oktan::DrawPrimitives::Triangles);
 	int32_t slot1 = 0;
-	int32_t slot2 = 1;
 	auto tex1 = oktan::Texture::Create("../textures/container.jpg", oktan::TextureType::Texture_2D, oktan::ColorType::Color_RGB, slot1);
-	auto tex2 = oktan::Texture::Create("../textures/awesomeface.png", oktan::TextureType::Texture_2D, oktan::ColorType::Color_RGBA, slot2);
 	int i = 0;
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	const int div = 2;
 	const float div2 = 512;
 	auto initPos = glm::vec3(0.0f, 0.0f, 50.0f);
-	camera.SetPosition(initPos);
+	camera->SetPosition(initPos);
 	while (!win->ShouldClose())
 	{
 		scene->ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		scene->ClearColorBuffer();
 		float val = sin(i++ / 24.0f) * 24;
 		shader->SetUniform("tex1", slot1);
-		shader->SetUniform("tex2", slot2);
-		shader->SetUniform("view", camera.GetViewMatrix());
-		shader->SetUniform("projection", camera.GetProjectionMatrix());
-		for (uint32_t j = 0; j < sizeof(cubePositions) / sizeof(cubePositions[0]); j++)
-		{
-			model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[j]);
-			shader->SetUniform("model", model);
-			shader->SetUniform("view", camera.GetViewMatrix());
-			shader->SetUniform("projection", camera.GetProjectionMatrix());
-			scene->DrawArrays(0, 36);
-		}
-
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, cubePositions[0]);
 		shader->SetUniform("model", model);
+		shader->SetUniform("view", camera->GetViewMatrix());
+		shader->SetUniform("projection", camera->GetProjectionMatrix());
+		scene->DrawElements(0, 6, 0);
 		shader->Use();
 		vao->Bind();
 		win->SwapBuffers();
 	}
-
+	delete tex1;
+	delete scene;
+	delete shader;
+	delete blo;
+	delete vao;
+	delete inp;
+	delete win;
+	delete camera;
     std::cout << "hello world!" << std::endl;
 }
