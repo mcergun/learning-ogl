@@ -4,16 +4,16 @@
 
 namespace oktan
 {
-	PerspectiveCamera::PerspectiveCamera(float fov, float width, float height, float near, float far)
-		: m_Projection(glm::perspective(glm::radians(fov), width / height, near, far))
+	PerspectiveCamera::PerspectiveCamera(float fov, float width, float height, float nearPlane, float farPlane)
+		: m_Projection(glm::perspective(glm::radians(fov), width / height, nearPlane, farPlane))
 	{
 		m_ViewProjection = m_Projection * m_View;
 		RecalculateView();
 	}
 
-	void PerspectiveCamera::SetProjection(float width, float height, float fov, float near, float far)
+	void PerspectiveCamera::SetProjection(float width, float height, float fov, float nearPlane, float farPlane)
 	{
-		m_Projection = glm::perspective(glm::radians(fov), width / height, near, far);
+		m_Projection = glm::perspective(glm::radians(fov), width / height, nearPlane, farPlane);
 	}
 
 	void PerspectiveCamera::SetPosition(glm::vec3 &pos)

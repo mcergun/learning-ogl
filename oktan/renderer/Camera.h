@@ -9,7 +9,7 @@ namespace oktan
 	class PerspectiveCamera
 	{
 	public:
-		PerspectiveCamera(float fov, float width, float height, float near, float far);
+		PerspectiveCamera(float fov, float width, float height, float nearPlane, float farPlane);
 		virtual ~PerspectiveCamera() = default;
 
 		glm::mat4 GetProjectionMatrix() const { return m_Projection; }
@@ -18,7 +18,7 @@ namespace oktan
 		glm::vec3 GetPosition() const { return m_Position; }
 		glm::vec3 GetTarget() const { return m_Target; }
 
-		void SetProjection(float fov, float width, float height, float near, float far);
+		void SetProjection(float fov, float width, float height, float nearPlane, float farPlane);
 		void SetPosition(glm::vec3 &pos);
 		void SetTarget(glm::vec3 &target);
 
